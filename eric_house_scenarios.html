@@ -500,7 +500,8 @@ function buildCFTables(r){
 
 // ── RENDER ────────────────────────────────────────────────────────
 function render(){
-  const r=compute();
+  let r;
+  try { r=compute(); } catch(e) { console.error('compute error:',e); return; }
 
   // Update sell year labels
   document.querySelectorAll('.sell-yr').forEach(el=>{el.textContent=r.sellYr});
@@ -595,7 +596,11 @@ function loadSliders(){
   const vals=JSON.parse(saved);
   Object.entries(vals).forEach(([id,val])=>{
     const el=document.getElementById(id);
-    if(el){el.value=val; const fn=fmtrs[id]; if(fn) document.getElementById('v-'+id).textContent=fn(val);}
+    if(!el) return;
+    // Clamp to current slider range
+    const v = Math.min(Math.max(Number(val), Number(el.min)), Number(el.max));
+    el.value=v;
+    const fn=fmtrs[id]; if(fn) document.getElementById('v-'+id).textContent=fn(v);
   });
 }
 
