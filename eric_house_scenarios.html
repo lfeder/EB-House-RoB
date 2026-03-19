@@ -28,6 +28,7 @@
   --sa: #78aadd;
   --sb: #58cc7e;
   --sc: #e06868;
+  --sd: #b07ad4;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;min-height:100vh;overflow-x:hidden}
@@ -76,7 +77,7 @@ input[type=range].sb::-webkit-slider-thumb{border-color:var(--sb)}
 input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 
 /* ── SCENARIO CARDS ROW ── */
-.scen-row{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto auto auto auto;gap:0 10px}
+.scen-row{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto auto auto auto;gap:0 10px}
 .scen-card{border-radius:3px;border:1px solid var(--bdr2);overflow:hidden;display:grid;grid-template-rows:subgrid;grid-row:span 5}
 .scen-head{padding:8px 12px;display:flex;align-items:center;gap:8px}
 .scen-head .letter{width:22px;height:22px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;flex-shrink:0}
@@ -100,6 +101,9 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 .card-c .scen-head{background:rgba(224,104,104,0.07);border-bottom:1px solid rgba(224,104,104,0.2)}
 .card-c .letter{background:rgba(224,104,104,0.18);color:var(--sc)}
 .card-c .scen-title{color:var(--sc)}
+.card-d .scen-head{background:rgba(176,122,212,0.07);border-bottom:1px solid rgba(176,122,212,0.2)}
+.card-d .letter{background:rgba(176,122,212,0.18);color:var(--sd)}
+.card-d .scen-title{color:var(--sd)}
 .pos{color:var(--green)} .neg{color:var(--red)} .gld{color:var(--goldbr)}
 
 /* ── CASHFLOW DETAIL ── */
@@ -119,7 +123,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 @media(max-width:900px){
   .layout{grid-template-columns:0px 1fr}
   .layout .sidebar{padding:10px 0;border-right:none}
-  .scen-row{grid-template-columns:1fr}
+  .scen-row{grid-template-columns:repeat(2,1fr)}
   .summ-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
@@ -242,6 +246,27 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
       </div>
       <button class="cf-toggle" onclick="toggleCF('c')">▸ Cashflows</button>
       <div class="cf-detail" id="cf-c"></div>
+    </div>
+    <!-- D -->
+    <div class="scen-card card-d">
+      <div class="scen-head"><div class="letter">D</div><div><div class="scen-title">Eric Sells Now</div></div></div>
+      <div class="scen-desc">Eric sells at current value, pays off mortgage. Farm rents elsewhere at Ag Rent.</div>
+      <div class="scen-metrics">
+        <div class="sm col-hdr">Farm</div>
+        <div class="sm col-hdr">Eric</div>
+        <div class="sm"><div class="sm-label">Ag Rent /mo</div><div class="sm-val" id="d-farmrent" style="color:var(--sd)">—</div></div>
+        <div class="sm"><div class="sm-label">Sale Price</div><div class="sm-val" id="d-price" class="pos">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Mortgage Payoff</div><div class="sm-val" id="d-payoff" class="neg">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Net Proceeds</div><div class="sm-val" id="d-net" class="pos">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Net CF</div><div class="sm-val" id="d-cumcf" class="pos">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">IRR (7 yr hold)</div><div class="sm-val" id="d-irr">—</div></div>
+      </div>
+      <button class="cf-toggle" onclick="toggleCF('d')">▸ Cashflows</button>
+      <div class="cf-detail" id="cf-d"></div>
     </div>
   </div>
 
@@ -444,11 +469,36 @@ function compute(){
   const termDF  = 1/Math.pow(1+disc,hor);
   const pvBNet = pvB - finalYr.eqB*termDF;
 
+  // ── Scenario D: Eric sells now ──
+  // Original: $570K mortgage on ~$600K home (95% LTV), ~7 yrs ago
+  const origMtg = 570000;
+  const origPrice = origMtg / 0.95;  // $600K
+  const downPmt = origPrice - origMtg; // $30K
+  const dNetProceeds = hv0 - bal;
+  const dPmtYrs = 7; // approx years of payments made
+  const dTotalPmts = piUsda * 12 * dPmtYrs;
+  const dNetCf = dNetProceeds - downPmt - dTotalPmts;
+  // IRR: down payment at t0, mortgage payments yrs 1-7, sale proceeds at t7
+  const irrCfsD = [-downPmt];
+  for(let yr=1;yr<=dPmtYrs;yr++){
+    let cf = -piUsda*12;
+    if(yr===dPmtYrs) cf += hv0 - bal; // sell at current value
+    irrCfsD.push(cf);
+  }
+  const irrD = calcIRR(irrCfsD);
+  const cfDetailD = [];
+  for(let yr=1;yr<=dPmtYrs;yr++){
+    const cf = -piUsda*12;
+    const sale = yr===dPmtYrs ? hv0 - bal : 0;
+    cfDetailD.push({yr, pi:piUsda*12, cf, sale, total:cf+sale});
+  }
+
   return {
     piUsda, piMkt, eqTotal, ericGets, johnShare, jjbShare, johnOwnPost, jcon, rentSavedYr1,
     ericPLA, ericCFA, ericPLC, ericCFC,
     hvSell, saleProceedsA, saleProceedsC, cumCfA, cumCfB, cumCfC, irrA, irrB, irrC,
     cfDetailA, cfDetailB, cfDetailC,
+    dNetProceeds, dNetCf, irrD, cfDetailD, downPmt, dTotalPmts, dPmtYrs,
     sellYr,
     ra0, rc0, annOps, hv0,
     years, beYear, pvA, pvBNet, pvC,
@@ -488,6 +538,14 @@ function buildCFTables(r){
       (isSell?`<td>${fmt(d.hvYr)}</td><td class="neg">${fmt(-d.rl)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
   }).join('');
   document.getElementById('cf-c').innerHTML=`<table><thead><tr><th>Yr</th><th>Mkt Rent</th><th>Exp</th><th>P&I</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${cRows}</tbody></table>`;
+
+  // D: Eric sells now — historical cashflows
+  const dRows=r.cfDetailD.map(d=>{
+    const isSell=d.yr===r.dPmtYrs;
+    return `<tr><td>Yr ${d.yr}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>`+
+      (isSell?`<td>${fmt(r.hv0)}</td><td class="neg">${fmt(-466887)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
+  }).join('');
+  document.getElementById('cf-d').innerHTML=`<table><thead><tr><th>Yr</th><th>P&I</th><th>Net CF</th><th>Sale Price</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="2">Down payment (5%)</td><td colspan="3" class="neg">${fmt(-r.downPmt)}</td></tr>${dRows}</tbody></table>`;
 }
 
 // ── RENDER ────────────────────────────────────────────────────────
@@ -538,6 +596,16 @@ function render(){
   document.getElementById('c-cumcf').className = 'sm-val '+(r.cumCfC>=0?'pos':'neg');
   document.getElementById('c-irr').textContent = fmtPct(r.irrC);
   document.getElementById('c-irr').className = 'sm-val '+(r.irrC>=0?'pos':'neg');
+
+  // Scenario D card
+  document.getElementById('d-farmrent').textContent = fmt(r.ra0);
+  document.getElementById('d-price').textContent = fmt(r.hv0);
+  document.getElementById('d-payoff').textContent = fmt(-466887);
+  document.getElementById('d-net').textContent = fmt(r.dNetProceeds);
+  document.getElementById('d-cumcf').textContent = fmt(r.dNetCf);
+  document.getElementById('d-cumcf').className = 'sm-val '+(r.dNetCf>=0?'pos':'neg');
+  document.getElementById('d-irr').textContent = fmtPct(r.irrD);
+  document.getElementById('d-irr').className = 'sm-val '+(r.irrD>=0?'pos':'neg');
 
   buildCFTables(r);
 }
