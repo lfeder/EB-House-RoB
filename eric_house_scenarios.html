@@ -188,7 +188,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
       <div class="scen-metrics">
         <div class="sm"><div class="sm-label">Eric: Net Proceeds</div><div class="sm-val" id="d-net" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Eric: Net CF</div><div class="sm-val" id="d-cumcf" class="pos">—</div></div>
-        <div class="sm"><div class="sm-label">Eric: Sale Price</div><div class="sm-val" id="d-price" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Eric: IRR (7 yr hold)</div><div class="sm-val" id="d-irr">—</div></div>
         <div class="sm"><div class="sm-label">Farm: Less Housing Security</div><div class="sm-val" style="color:var(--red);font-size:10px">⚠</div></div>
       </div>
@@ -211,9 +210,9 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
     <div class="scen-card card-c">
       <div class="scen-head"><div class="letter">C</div><div><div class="scen-title">Farm Buys (off BS)</div></div></div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Farm: Rent Saved /mo</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Eric: Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
         <div class="sm"><div class="sm-label">Farm: Cost /mo (ex princ.)</div><div class="sm-val" id="b-mo" style="color:var(--sc)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm: Rent Saved /mo</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="b-val" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Net CF (<span class="sell-yr">10</span> yrs)</div><div class="sm-val" id="b-cumcf">—</div></div>
         <div class="sm"><div class="sm-label">Farm: IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div></div>
@@ -547,7 +546,6 @@ function render(){
   document.getElementById('c-irr').className = 'sm-val '+(r.irrC>=0?'pos':'neg');
 
   // Scenario D card (display label A: Eric Sells Now)
-  document.getElementById('d-price').textContent = fmt(r.hv0);
   document.getElementById('d-net').textContent = fmt(r.dNetProceeds);
   document.getElementById('d-cumcf').textContent = fmt(r.dNetCf);
   document.getElementById('d-cumcf').className = 'sm-val '+(r.dNetCf>=0?'pos':'neg');
