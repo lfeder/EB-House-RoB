@@ -210,7 +210,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm col-hdr">Eric</div>
         <div class="sm"><div class="sm-label">Rent Saved /mo</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
-        <div class="sm"><div class="sm-label">Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
+        <div class="sm"><div class="sm-label">Cost /mo (ex princ.)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="b-val" class="pos">—</div></div>
         <div class="sm"></div>
@@ -518,7 +518,7 @@ function render(){
   // Scenario B card
   document.getElementById('b-ericnet').textContent = fmt(r.ericGets);
   document.getElementById('b-rentsaved').textContent = fmt(r.rentSavedYr1/12);
-  document.getElementById('b-mo').textContent = fmt(r.piUsda + r.annOps/12);
+  document.getElementById('b-mo').textContent = fmt(466887*0.01/12 + r.annOps/12);
   document.getElementById('b-val').textContent = fmt(r.hvSell);
   document.getElementById('b-val').className = 'sm-val pos';
   document.getElementById('b-cumcf').textContent = fmt(r.cumCfB);
