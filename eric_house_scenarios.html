@@ -77,8 +77,8 @@ input[type=range].sb::-webkit-slider-thumb{border-color:var(--sb)}
 input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 
 /* ── SCENARIO CARDS ROW ── */
-.scen-row{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto auto auto;gap:0 10px}
-.scen-card{border-radius:3px;border:1px solid var(--bdr2);overflow:hidden;display:grid;grid-template-rows:subgrid;grid-row:span 4}
+.scen-row{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto auto;gap:0 10px}
+.scen-card{border-radius:3px;border:1px solid var(--bdr2);overflow:hidden;display:grid;grid-template-rows:subgrid;grid-row:span 3}
 .scen-head{padding:8px 12px;display:flex;align-items:center;gap:8px}
 .scen-head .letter{width:24px;height:24px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;flex-shrink:0}
 .scen-title{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;line-height:1.2}
@@ -127,7 +127,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   .layout{grid-template-columns:0px 1fr}
   .layout .sidebar{padding:10px 0;border-right:none}
   .scen-row{grid-template-columns:repeat(2,1fr)}
-  .scen-card{grid-row:span 4}
+  .scen-card{grid-row:span 3}
   .summ-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
@@ -185,7 +185,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
     <!-- A (was D): Eric Sells Now -->
     <div class="scen-card card-a">
       <div class="scen-head"><div class="letter">A</div><div><div class="scen-title">Eric Sells Now</div></div></div>
-      <div class="scen-desc">Eric sells now, pays off mortgage. Less housing security for farm.</div>
       <div class="scen-metrics">
         <div class="sm"><div class="sm-label">Eric: Net Proceeds</div><div class="sm-val" id="d-net" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Eric: Net CF</div><div class="sm-val" id="d-cumcf" class="pos">—</div></div>
@@ -198,7 +197,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
     <!-- B (was A): Status Quo -->
     <div class="scen-card card-b">
       <div class="scen-head"><div class="letter">B</div><div><div class="scen-title">Status Quo</div></div></div>
-      <div class="scen-desc">Farm pays Eric Ag Rent.</div>
       <div class="scen-metrics">
         <div class="sm"><div class="sm-label">Eric: P&L /yr (Yr 1)</div><div class="sm-val" id="a-pl">—</div></div>
         <div class="sm"><div class="sm-label">Eric: CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div></div>
@@ -212,7 +210,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
     <!-- C (was B): Farm Buys -->
     <div class="scen-card card-c">
       <div class="scen-head"><div class="letter">C</div><div><div class="scen-title">Farm Buys (off BS)</div></div></div>
-      <div class="scen-desc">Farm pays Eric equity minus his ownership share. Farm assumes USDA-RD + ops.</div>
       <div class="scen-metrics">
         <div class="sm"><div class="sm-label">Farm: Rent Saved /mo</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Eric: Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
@@ -226,7 +223,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
     <!-- D (was C): Market Refi -->
     <div class="scen-card card-d">
       <div class="scen-head"><div class="letter">D</div><div><div class="scen-title">Market Refi + Mkt Rent</div></div></div>
-      <div class="scen-desc">Eric refis at market rate, charges market rent. Less housing security for farm.</div>
       <div class="scen-metrics">
         <div class="sm"><div class="sm-label">Eric: P&L /yr (Yr 1)</div><div class="sm-val" id="c-pl">—</div></div>
         <div class="sm"><div class="sm-label">Eric: CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
