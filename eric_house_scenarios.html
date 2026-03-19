@@ -471,27 +471,29 @@ function compute(){
 
   // ── Scenario D: Eric sells now ──
   // Original: $570K mortgage on ~$600K home (95% LTV), ~7 yrs ago
+  // Rent: $2,400/mo yrs 1-5, then current ag rent yr 6-7
+  // Expenses: current annOps deflated 3%/yr backwards
   const origMtg = 570000;
   const origPrice = origMtg / 0.95;  // $600K
   const downPmt = origPrice - origMtg; // $30K
   const dNetProceeds = hv0 - bal;
-  const dPmtYrs = 7; // approx years of payments made
-  const dTotalPmts = piUsda * 12 * dPmtYrs;
-  const dNetCf = dNetProceeds - downPmt - dTotalPmts;
-  // IRR: down payment at t0, mortgage payments yrs 1-7, sale proceeds at t7
+  const dPmtYrs = 7;
   const irrCfsD = [-downPmt];
-  for(let yr=1;yr<=dPmtYrs;yr++){
-    let cf = -piUsda*12;
-    if(yr===dPmtYrs) cf += hv0 - bal; // sell at current value
-    irrCfsD.push(cf);
-  }
-  const irrD = calcIRR(irrCfsD);
   const cfDetailD = [];
+  let dCumCf = 0;
   for(let yr=1;yr<=dPmtYrs;yr++){
-    const cf = -piUsda*12;
+    const rentD = yr<=5 ? 2400*12 : ra0*12;
+    const opsD = annOps * Math.pow(1.03, yr - dPmtYrs); // deflate back from current
+    const getD = rentD * getR;
+    const piD = piUsda*12;
+    const cf = rentD - opsD - piD - getD;
     const sale = yr===dPmtYrs ? hv0 - bal : 0;
-    cfDetailD.push({yr, pi:piUsda*12, cf, sale, total:cf+sale});
+    dCumCf += cf;
+    irrCfsD.push(cf + sale);
+    cfDetailD.push({yr, rent:rentD, ops:opsD, pi:piD, get:getD, cf, sale, total:cf+sale});
   }
+  const dNetCf = dCumCf + dNetProceeds;
+  const irrD = calcIRR(irrCfsD);
 
   return {
     piUsda, piMkt, eqTotal, ericGets, johnShare, jjbShare, johnOwnPost, jcon, rentSavedYr1,
@@ -542,10 +544,10 @@ function buildCFTables(r){
   // D: Eric sells now — historical cashflows
   const dRows=r.cfDetailD.map(d=>{
     const isSell=d.yr===r.dPmtYrs;
-    return `<tr><td>Yr ${d.yr}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>`+
+    return `<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops-d.get)}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>`+
       (isSell?`<td>${fmt(r.hv0)}</td><td class="neg">${fmt(-466887)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
   }).join('');
-  document.getElementById('cf-d').innerHTML=`<table><thead><tr><th>Yr</th><th>P&I</th><th>Net CF</th><th>Sale Price</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="2">Down payment (5%)</td><td colspan="3" class="neg">${fmt(-r.downPmt)}</td></tr>${dRows}</tbody></table>`;
+  document.getElementById('cf-d').innerHTML=`<table><thead><tr><th>Yr</th><th>Rent In</th><th>Exp</th><th>P&I</th><th>Net CF</th><th>Sale Price</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Down payment (5%)</td><td colspan="3" class="neg">${fmt(-r.downPmt)}</td></tr>${dRows}</tbody></table>`;
 }
 
 // ── RENDER ────────────────────────────────────────────────────────
