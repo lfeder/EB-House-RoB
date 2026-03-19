@@ -77,19 +77,18 @@ input[type=range].sb::-webkit-slider-thumb{border-color:var(--sb)}
 input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 
 /* ── SCENARIO CARDS ROW ── */
-.scen-row{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:auto auto auto auto auto auto auto auto auto auto;gap:0 10px}
-.scen-card{border-radius:3px;border:1px solid var(--bdr2);overflow:hidden;display:grid;grid-template-rows:subgrid;grid-row:span 5}
+.scen-row{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto auto auto;gap:0 10px}
+.scen-card{border-radius:3px;border:1px solid var(--bdr2);overflow:hidden;display:grid;grid-template-rows:subgrid;grid-row:span 4}
 .scen-head{padding:8px 12px;display:flex;align-items:center;gap:8px}
 .scen-head .letter{width:22px;height:22px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;flex-shrink:0}
 .scen-title{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;line-height:1.2}
 .scen-desc{font-size:9.5px;color:var(--muted);padding:0 12px 8px;line-height:1.45}
-.scen-metrics{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bdr);border-top:1px solid var(--bdr)}
-.sm{background:var(--surf2);padding:8px 10px}
-.sm-label{font-size:8px;text-transform:uppercase;letter-spacing:0.11em;color:var(--muted);font-weight:600;margin-bottom:3px}
+.scen-metrics{border-top:1px solid var(--bdr)}
+.sm{background:var(--surf2);padding:6px 10px;border-bottom:1px solid var(--bdr)}
+.sm-label{font-size:8px;text-transform:uppercase;letter-spacing:0.11em;color:var(--muted);font-weight:600;margin-bottom:2px}
 .sm-val{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;line-height:1}
 .sm-sub{font-size:8.5px;color:var(--muted);margin-top:2px}
-.sm.full{grid-column:1/-1}
-.col-hdr{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.13em;color:var(--muted);padding:5px 10px 2px;text-align:center}
+.cf-details-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 
 /* card color themes */
 .card-a .scen-head{background:rgba(120,170,221,0.08);border-bottom:1px solid rgba(120,170,221,0.2)}
@@ -124,6 +123,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   .layout{grid-template-columns:0px 1fr}
   .layout .sidebar{padding:10px 0;border-right:none}
   .scen-row{grid-template-columns:repeat(2,1fr)}
+  .scen-card{grid-row:span 4}
   .summ-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
@@ -166,8 +166,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-rcgr">3.00%</span></div><input type="range" class="sc" id="rcgr" min="0" max="8" step="0.25" value="3"></div>
 
   <div class="sh">Analysis</div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Discount Rate</span><span class="sr-val" id="v-disc">8.0%</span></div><input type="range" id="disc" min="2" max="15" step="0.5" value="8"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Horizon</span><span class="sr-val" id="v-hor">25 yrs</span></div><input type="range" id="hor" min="5" max="30" step="1" value="25"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Sell Year</span><span class="sr-val" id="v-sell">10 yrs</span></div><input type="range" id="sell" min="1" max="30" step="1" value="10"></div>
 
   <div class="sh">USDA-RD Loan <span class="tag tag-act">fixed</span></div>
@@ -189,86 +187,64 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
       <div class="scen-head"><div class="letter">A</div><div><div class="scen-title">Ag Rent</div></div></div>
       <div class="scen-desc">Farm pays Eric Ag Rent.</div>
       <div class="scen-metrics">
-        <div class="sm col-hdr">Farm</div>
-        <div class="sm col-hdr">Eric</div>
-        <div class="sm"><div class="sm-label">Ag Rent /mo</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div></div>
-        <div class="sm"><div class="sm-label">P&L /yr (Yr 1)</div><div class="sm-val" id="a-pl">—</div></div>
-        <div class="sm"></div>
-        <div class="sm"><div class="sm-label">CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div></div>
-        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Farm: Ag Rent /mo</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: P&L /yr (Yr 1)</div><div class="sm-val" id="a-pl">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div></div>
-        <div class="sm"></div>
         <div class="sm"><div class="sm-label">Net CF (<span class="sell-yr">10</span> yrs)</div><div class="sm-val" id="a-cumcf">—</div></div>
-        <div class="sm"></div>
-        <div class="sm"><div class="sm-label">IRR (hold → sell)</div><div class="sm-val" id="a-irr">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: IRR (hold → sell)</div><div class="sm-val" id="a-irr">—</div></div>
       </div>
       <button class="cf-toggle" onclick="toggleCF('a')">▸ Cashflows</button>
-      <div class="cf-detail" id="cf-a"></div>
     </div>
     <!-- B -->
     <div class="scen-card card-b">
       <div class="scen-head"><div class="letter">B</div><div><div class="scen-title">Farm Buys (off BS)</div></div></div>
-      <div class="scen-desc">Farm pays Eric equity minus his ownership share as capital contribution. Farm assumes USDA-RD mortgage + ops.</div>
+      <div class="scen-desc">Farm pays Eric equity minus his ownership share. Farm assumes USDA-RD + ops.</div>
       <div class="scen-metrics">
-        <div class="sm col-hdr">Farm</div>
-        <div class="sm col-hdr">Eric</div>
-        <div class="sm"><div class="sm-label">Rent Saved /mo</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
-        <div class="sm"><div class="sm-label">Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
-        <div class="sm"><div class="sm-label">Cost /mo (ex princ.)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
-        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Farm: Rent Saved /mo</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm: Cost /mo (ex princ.)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="b-val" class="pos">—</div></div>
-        <div class="sm"></div>
         <div class="sm"><div class="sm-label">Net CF (<span class="sell-yr">10</span> yrs)</div><div class="sm-val" id="b-cumcf">—</div></div>
-        <div class="sm"></div>
-        <div class="sm"><div class="sm-label">IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div></div>
-        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Farm: IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div></div>
       </div>
       <button class="cf-toggle" onclick="toggleCF('b')">▸ Cashflows</button>
-      <div class="cf-detail" id="cf-b"></div>
     </div>
     <!-- C -->
     <div class="scen-card card-c">
-      <div class="scen-head"><div class="letter">C</div><div><div class="scen-title">Market Refi + Market Rent</div></div></div>
-      <div class="scen-desc">Eric refinances at market rate, charges market rent. Farm needs to find other housing.</div>
+      <div class="scen-head"><div class="letter">C</div><div><div class="scen-title">Market Refi + Mkt Rent</div></div></div>
+      <div class="scen-desc">Eric refis at market rate, charges market rent. Less housing security for farm.</div>
       <div class="scen-metrics">
-        <div class="sm col-hdr">Farm</div>
-        <div class="sm col-hdr">Eric</div>
-        <div class="sm"><div class="sm-label">Ag Rent /mo</div><div class="sm-val" id="c-farmrent" style="color:var(--sc)">—</div></div>
-        <div class="sm"><div class="sm-label">P&L /yr (Yr 1)</div><div class="sm-val" id="c-pl">—</div></div>
-        <div class="sm"><div class="sm-label">Less Housing Security</div><div class="sm-val" style="color:var(--red);font-size:10px">⚠</div></div>
-        <div class="sm"><div class="sm-label">CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
-        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Farm: Ag Rent /mo</div><div class="sm-val" id="c-farmrent" style="color:var(--sc)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm: Less Housing Security</div><div class="sm-val" style="color:var(--red);font-size:10px">⚠</div></div>
+        <div class="sm"><div class="sm-label">Eric: P&L /yr (Yr 1)</div><div class="sm-val" id="c-pl">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="c-sale">—</div></div>
-        <div class="sm"></div>
-        <div class="sm"><div class="sm-label">Net CF (<span class="sell-yr">10</span> yrs)</div><div class="sm-val" id="c-cumcf">—</div></div>
-        <div class="sm"></div>
-        <div class="sm"><div class="sm-label">IRR (hold → sell)</div><div class="sm-val" id="c-irr">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: IRR (hold → sell)</div><div class="sm-val" id="c-irr">—</div></div>
       </div>
       <button class="cf-toggle" onclick="toggleCF('c')">▸ Cashflows</button>
-      <div class="cf-detail" id="cf-c"></div>
     </div>
     <!-- D -->
     <div class="scen-card card-d">
       <div class="scen-head"><div class="letter">D</div><div><div class="scen-title">Eric Sells Now</div></div></div>
-      <div class="scen-desc">Eric sells at current value, pays off mortgage. Farm rents elsewhere at Ag Rent.</div>
+      <div class="scen-desc">Eric sells now, pays off mortgage. Less housing security for farm.</div>
       <div class="scen-metrics">
-        <div class="sm col-hdr">Farm</div>
-        <div class="sm col-hdr">Eric</div>
-        <div class="sm"><div class="sm-label">Ag Rent /mo</div><div class="sm-val" id="d-farmrent" style="color:var(--sd)">—</div></div>
-        <div class="sm"><div class="sm-label">Sale Price</div><div class="sm-val" id="d-price" class="pos">—</div></div>
-        <div class="sm"><div class="sm-label">Less Housing Security</div><div class="sm-val" style="color:var(--red);font-size:10px">⚠</div></div>
-        <div class="sm"><div class="sm-label">Mortgage Payoff</div><div class="sm-val" id="d-payoff" class="neg">—</div></div>
-        <div class="sm"></div>
-        <div class="sm"><div class="sm-label">Net Proceeds</div><div class="sm-val" id="d-net" class="pos">—</div></div>
-        <div class="sm"></div>
-        <div class="sm"><div class="sm-label">Net CF</div><div class="sm-val" id="d-cumcf" class="pos">—</div></div>
-        <div class="sm"></div>
-        <div class="sm"><div class="sm-label">IRR (7 yr hold)</div><div class="sm-val" id="d-irr">—</div></div>
+        <div class="sm"><div class="sm-label">Farm: Ag Rent /mo</div><div class="sm-val" id="d-farmrent" style="color:var(--sd)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm: Less Housing Security</div><div class="sm-val" style="color:var(--red);font-size:10px">⚠</div></div>
+        <div class="sm"><div class="sm-label">Eric: Net Proceeds</div><div class="sm-val" id="d-net" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: Net CF</div><div class="sm-val" id="d-cumcf" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: Sale Price</div><div class="sm-val" id="d-price" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: IRR (7 yr hold)</div><div class="sm-val" id="d-irr">—</div></div>
       </div>
       <button class="cf-toggle" onclick="toggleCF('d')">▸ Cashflows</button>
-      <div class="cf-detail" id="cf-d"></div>
     </div>
   </div>
+
+  <!-- Cashflow details (full width below cards) -->
+  <div class="cf-detail" id="cf-a"></div>
+  <div class="cf-detail" id="cf-b"></div>
+  <div class="cf-detail" id="cf-c"></div>
+  <div class="cf-detail" id="cf-d"></div>
 
 
 
@@ -338,8 +314,6 @@ function compute(){
   const refterm = g('refterm');
   const rc0     = g('rc');
   const rcgr    = g('rcgr')/100;
-  const disc    = g('disc')/100;
-  const hor     = g('hor');
   const sellYr  = g('sell');
 
   const piUsda = moPmt(bal, usdar, term);
@@ -425,50 +399,6 @@ function compute(){
   const irrB = calcIRR(irrCfsB);
   const irrC = calcIRR(irrCfsC);
 
-  // ── Year arrays (farm perspective) ──
-  const years=[];
-  let cumA=0, cumB=0, cumC=0;
-  let pvA=0, pvB=0, pvC=0;
-  let beYear=null;
-
-  cumB = ericGets; // farm pays Eric 75% upfront
-  pvB  = ericGets;
-
-  for(let yr=1;yr<=hor;yr++){
-    const hv = hv0*Math.pow(1+appr,yr);
-    const termMos = term*12;
-    let aBuy=0, bBuy=0, cBuy=0;
-
-    for(let m=1;m<=12;m++){
-      const mo=(yr-1)*12+m;
-      const t=mo/12;
-      const df=1/Math.pow(1+disc,t);
-
-      const rentA = ra0*Math.pow(1+ragr,(mo-1)/12);
-      aBuy += rentA; cumA += rentA; pvA += rentA*df;
-
-      const piB = mo<=termMos ? piUsda : 0;
-      const opsMo = (annOps*Math.pow(1+infl,(mo-1)/12))/12;
-      bBuy += piB+opsMo; cumB += piB+opsMo; pvB += (piB+opsMo)*df;
-
-      const rentC = rc0*Math.pow(1+rcgr,(mo-1)/12);
-      cBuy += rentC; cumC += rentC; pvC += rentC*df;
-    }
-
-    const rl = remBal(bal, usdar, term, yr*12);
-    const eqB = hv - rl;
-    const bNet = cumB - eqB;
-    const bVsA = cumA - bNet;
-
-    if(beYear===null && bVsA>0) beYear=yr;
-
-    years.push({yr,hv,rl,eqB,aBuy,bBuy,cBuy,cumA,cumB,cumC,bNet,bVsA});
-  }
-
-  const finalYr = years[years.length-1];
-  const termDF  = 1/Math.pow(1+disc,hor);
-  const pvBNet = pvB - finalYr.eqB*termDF;
-
   // ── Scenario D: Eric sells now ──
   // Original: $570K mortgage on ~$600K home (95% LTV), ~7 yrs ago
   // Rent: $2,400/mo yrs 1-5, then current ag rent yr 6-7
@@ -502,9 +432,7 @@ function compute(){
     cfDetailA, cfDetailB, cfDetailC,
     dNetProceeds, dNetCf, irrD, cfDetailD, downPmt, dPmtYrs,
     sellYr,
-    ra0, rc0, annOps, hv0,
-    years, beYear, pvA, pvBNet, pvC,
-    finalYr
+    ra0, rc0, annOps, hv0
   };
 }
 
@@ -594,15 +522,12 @@ function render(){
   document.getElementById('c-cf').className = 'sm-val '+(r.ericCFC>=0?'pos':'neg');
   document.getElementById('c-sale').textContent = fmt(r.hvSell);
   document.getElementById('c-sale').className = 'sm-val pos';
-  document.getElementById('c-cumcf').textContent = fmt(r.cumCfC);
-  document.getElementById('c-cumcf').className = 'sm-val '+(r.cumCfC>=0?'pos':'neg');
   document.getElementById('c-irr').textContent = fmtPct(r.irrC);
   document.getElementById('c-irr').className = 'sm-val '+(r.irrC>=0?'pos':'neg');
 
   // Scenario D card
   document.getElementById('d-farmrent').textContent = fmt(r.ra0);
   document.getElementById('d-price').textContent = fmt(r.hv0);
-  document.getElementById('d-payoff').textContent = fmt(-466887);
   document.getElementById('d-net').textContent = fmt(r.dNetProceeds);
   document.getElementById('d-cumcf').textContent = fmt(r.dNetCf);
   document.getElementById('d-cumcf').className = 'sm-val '+(r.dNetCf>=0?'pos':'neg');
@@ -623,7 +548,6 @@ const fmtrs={
   fval:v=>'$'+(Number(v)/1e6).toFixed(1)+'M',
   mktrate:v=>Number(v).toFixed(2)+'%', refterm:v=>v+' yrs',
   rc:v=>'$'+Number(v).toLocaleString(), rcgr:v=>Number(v).toFixed(2)+'%',
-  disc:v=>Number(v).toFixed(1)+'%', hor:v=>v+' yrs',
   sell:v=>v+' yrs',
 };
 document.querySelectorAll('input[type=range]').forEach(el=>{
