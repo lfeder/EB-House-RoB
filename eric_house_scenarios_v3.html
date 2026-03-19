@@ -129,7 +129,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   <h1>Eric's House</h1>
   <span class="spacer"></span>
   <button class="hdr-btn btn-save" id="btn-save" onclick="saveSliders()">Save</button>
-  <span style="font-size:11px;color:var(--text)">v03-18 19:18</span>
+  <span style="font-size:11px;color:var(--text)" id="ver"></span>
 </header>
 
 <div class="layout" id="layout">
@@ -569,6 +569,10 @@ function loadSliders(){
     if(el){el.value=val; const fn=fmtrs[id]; if(fn) document.getElementById('v-'+id).textContent=fn(val);}
   });
 }
+
+// Version stamp from file last-modified
+const lm=new Date(document.lastModified);
+document.getElementById('ver').textContent='v'+(''+(lm.getMonth()+1)).padStart(2,'0')+'-'+(''+ lm.getDate()).padStart(2,'0')+' '+(''+ lm.getHours()).padStart(2,'0')+':'+(''+ lm.getMinutes()).padStart(2,'0');
 
 loadSliders();
 render();
