@@ -146,16 +146,16 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   <div class="sr"><div class="sr-top"><span class="sr-label">Maintenance /yr</span><span class="sr-val" id="v-maint">$6,000</span></div><input type="range" id="maint" min="0" max="15000" step="250" value="6000"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Annual Inflation</span><span class="sr-val" id="v-infl">3.00%</span></div><input type="range" id="infl" min="0" max="8" step="0.25" value="3"></div>
 
-  <div class="sh">A — Status Quo <span class="tag tag-sa">rent</span></div>
+  <div class="sh">A — Status Quo</div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Ag Rent /mo</span><span class="sr-val" id="v-ra">$3,500</span></div><input type="range" class="sa" id="ra" min="2000" max="6000" step="100" value="3500"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-ragr">3.00%</span></div><input type="range" class="sa" id="ragr" min="0" max="8" step="0.25" value="3"></div>
 
-  <div class="sh">B — Farm Buys <span class="tag tag-sb">buy</span></div>
+  <div class="sh">B — Farm Buys</div>
   <div class="sr"><div class="sr-top"><span class="sr-label">John Contributes?</span><span class="sr-val" id="v-jcon">Yes</span></div><input type="range" class="sb" id="jcon" min="0" max="1" step="1" value="1"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Farm Value (for dilution)</span><span class="sr-val" id="v-fval">$12.5M</span></div><input type="range" class="sb" id="fval" min="10000000" max="15000000" step="500000" value="12500000"></div>
   <div style="padding:2px 3px 4px;font-size:9px;color:var(--dim)">John: <span id="sb-jown" style="font-family:'Space Mono',monospace;font-weight:700">35.0%</span></div>
 
-  <div class="sh">C — Refi, Mkt Rent <span class="tag tag-sc">refi</span></div>
+  <div class="sh">C — Refi, Mkt Rent</div>
   <div class="sr"><div class="sr-top"><span class="sr-label">New Market Rate</span><span class="sr-val" id="v-mktrate">7.00%</span></div><input type="range" class="sc" id="mktrate" min="4" max="12" step="0.25" value="7"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">New Term (refi)</span><span class="sr-val" id="v-refterm">30 yrs</span></div><input type="range" class="sc" id="refterm" min="10" max="30" step="5" value="30"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Market Rent /mo</span><span class="sr-val" id="v-rc">$4,500</span></div><input type="range" class="sc" id="rc" min="2500" max="8000" step="100" value="4500"></div>
@@ -194,6 +194,8 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div></div>
         <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Net CF (<span class="sell-yr">10</span> yrs)</div><div class="sm-val" id="a-cumcf">—</div></div>
+        <div class="sm"></div>
         <div class="sm"><div class="sm-label">IRR (hold → sell)</div><div class="sm-val" id="a-irr">—</div></div>
       </div>
       <button class="cf-toggle" onclick="toggleCF('a')">▸ Cashflows</button>
@@ -211,6 +213,8 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm"><div class="sm-label">Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="b-val" class="pos">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Net CF (<span class="sell-yr">10</span> yrs)</div><div class="sm-val" id="b-cumcf">—</div></div>
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div></div>
         <div class="sm"></div>
@@ -231,6 +235,8 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm"><div class="sm-label">CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="c-sale">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Net CF (<span class="sell-yr">10</span> yrs)</div><div class="sm-val" id="c-cumcf">—</div></div>
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">IRR (hold → sell)</div><div class="sm-val" id="c-irr">—</div></div>
       </div>
@@ -386,6 +392,10 @@ function compute(){
     cfDetailC.push({yr, rent:rentC, ops:opsYr, pi:piC, get:getC, cf:cfC, sale:saleC, total:cfC+saleC, hvYr, rl:rlC});
   }
 
+  const cumCfA = cfDetailA.reduce((s,d)=>s+d.cf,0);
+  const cumCfB = cfDetailB.reduce((s,d)=>s+d.cf,0);
+  const cumCfC = cfDetailC.reduce((s,d)=>s+d.cf,0);
+
   const irrA = calcIRR(irrCfsA);
   const irrB = calcIRR(irrCfsB);
   const irrC = calcIRR(irrCfsC);
@@ -437,7 +447,7 @@ function compute(){
   return {
     piUsda, piMkt, eqTotal, ericGets, johnShare, jjbShare, johnOwnPost, jcon, rentSavedYr1,
     ericPLA, ericCFA, ericPLC, ericCFC,
-    hvSell, saleProceedsA, saleProceedsC, irrA, irrB, irrC,
+    hvSell, saleProceedsA, saleProceedsC, cumCfA, cumCfB, cumCfC, irrA, irrB, irrC,
     cfDetailA, cfDetailB, cfDetailC,
     sellYr,
     ra0, rc0, annOps, hv0,
@@ -500,6 +510,8 @@ function render(){
   document.getElementById('a-cf').className = 'sm-val '+(r.ericCFA>=0?'pos':'neg');
   document.getElementById('a-sale').textContent = fmt(r.hvSell);
   document.getElementById('a-sale').className = 'sm-val pos';
+  document.getElementById('a-cumcf').textContent = fmt(r.cumCfA);
+  document.getElementById('a-cumcf').className = 'sm-val '+(r.cumCfA>=0?'pos':'neg');
   document.getElementById('a-irr').textContent = fmtPct(r.irrA);
   document.getElementById('a-irr').className = 'sm-val '+(r.irrA>=0?'pos':'neg');
 
@@ -509,6 +521,8 @@ function render(){
   document.getElementById('b-mo').textContent = fmt(r.piUsda + r.annOps/12);
   document.getElementById('b-val').textContent = fmt(r.hvSell);
   document.getElementById('b-val').className = 'sm-val pos';
+  document.getElementById('b-cumcf').textContent = fmt(r.cumCfB);
+  document.getElementById('b-cumcf').className = 'sm-val '+(r.cumCfB>=0?'pos':'neg');
   document.getElementById('b-irr').textContent = fmtPct(r.irrB);
   document.getElementById('b-irr').className = 'sm-val '+(r.irrB>=0?'pos':'neg');
 
@@ -520,6 +534,8 @@ function render(){
   document.getElementById('c-cf').className = 'sm-val '+(r.ericCFC>=0?'pos':'neg');
   document.getElementById('c-sale').textContent = fmt(r.hvSell);
   document.getElementById('c-sale').className = 'sm-val pos';
+  document.getElementById('c-cumcf').textContent = fmt(r.cumCfC);
+  document.getElementById('c-cumcf').className = 'sm-val '+(r.cumCfC>=0?'pos':'neg');
   document.getElementById('c-irr').textContent = fmtPct(r.irrC);
   document.getElementById('c-irr').className = 'sm-val '+(r.irrC>=0?'pos':'neg');
 
