@@ -102,15 +102,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 .card-c .scen-title{color:var(--sc)}
 .pos{color:var(--green)} .neg{color:var(--red)} .gld{color:var(--goldbr)}
 
-/* ── SUMMARY GRID ── */
-.summ-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.sg{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;padding:9px 11px;position:relative;overflow:hidden}
-.sg::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--bdr2)}
-.sg.ga::before{background:var(--sa)} .sg.gb::before{background:var(--sb)} .sg.gc::before{background:var(--sc)} .sg.gx::before{background:var(--gold)}
-.sg-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.11em;color:var(--muted);margin-bottom:4px}
-.sg-val{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;line-height:1}
-.sg-sub{font-size:8.5px;color:var(--muted);margin-top:2px}
-
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
   .layout{grid-template-columns:0px 1fr}
@@ -229,13 +220,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
     </div>
   </div>
 
-  <!-- Summary metrics row -->
-  <div class="summ-grid">
-    <div class="sg ga"><div class="sg-label">A · Farm NPV Cost</div><div class="sg-val" id="s-anpv" style="color:var(--sa)">—</div></div>
-    <div class="sg gb"><div class="sg-label">B · Farm NPV Net Cost</div><div class="sg-val" id="s-bnpv" style="color:var(--sb)">—</div></div>
-    <div class="sg gc"><div class="sg-label">C · Farm NPV Cost</div><div class="sg-val" id="s-cnpv" style="color:var(--sc)">—</div><div class="sg-sub">= A (rents elsewhere)</div></div>
-    <div class="sg gx"><div class="sg-label">A · Eric IRR</div><div class="sg-val" id="s-airr" style="color:var(--goldbr)">—</div></div>
-  </div>
 
 
 </main>
@@ -488,12 +472,6 @@ function render(){
   document.getElementById('c-sale').className = 'sm-val pos';
   document.getElementById('c-irr').textContent = fmtPct(r.irrC);
   document.getElementById('c-irr').className = 'sm-val '+(r.irrC>=0?'pos':'neg');
-
-  // Summary row
-  document.getElementById('s-anpv').textContent = fmt(r.pvA);
-  document.getElementById('s-bnpv').textContent = fmt(r.pvBNet);
-  document.getElementById('s-cnpv').textContent = fmt(r.pvA); // same as A: farm rents elsewhere at ag rate
-  document.getElementById('s-airr').textContent = fmtPct(r.irrA);
 
 }
 
