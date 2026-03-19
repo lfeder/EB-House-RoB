@@ -182,12 +182,26 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 
   <!-- Scenario cards -->
   <div class="scen-row">
-    <!-- A -->
+    <!-- A (was D): Eric Sells Now -->
     <div class="scen-card card-a">
-      <div class="scen-head"><div class="letter">A</div><div><div class="scen-title">Ag Rent</div></div></div>
+      <div class="scen-head"><div class="letter">A</div><div><div class="scen-title">Eric Sells Now</div></div></div>
+      <div class="scen-desc">Eric sells now, pays off mortgage. Less housing security for farm.</div>
+      <div class="scen-metrics">
+        <div class="sm"><div class="sm-label">Farm: Ag Rent /mo</div><div class="sm-val" id="d-farmrent" style="color:var(--sa)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm: Less Housing Security</div><div class="sm-val" style="color:var(--red);font-size:10px">⚠</div></div>
+        <div class="sm"><div class="sm-label">Eric: Net Proceeds</div><div class="sm-val" id="d-net" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: Net CF</div><div class="sm-val" id="d-cumcf" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: Sale Price</div><div class="sm-val" id="d-price" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: IRR (7 yr hold)</div><div class="sm-val" id="d-irr">—</div></div>
+      </div>
+      <button class="cf-toggle" onclick="toggleCF('d')">▸ Cashflows</button>
+    </div>
+    <!-- B (was A): Ag Rent -->
+    <div class="scen-card card-b">
+      <div class="scen-head"><div class="letter">B</div><div><div class="scen-title">Ag Rent</div></div></div>
       <div class="scen-desc">Farm pays Eric Ag Rent.</div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Farm: Ag Rent /mo</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm: Ag Rent /mo</div><div class="sm-val" id="a-mo" style="color:var(--sb)">—</div></div>
         <div class="sm"><div class="sm-label">Eric: P&L /yr (Yr 1)</div><div class="sm-val" id="a-pl">—</div></div>
         <div class="sm"><div class="sm-label">Eric: CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div></div>
@@ -197,26 +211,26 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
       </div>
       <button class="cf-toggle" onclick="toggleCF('a')">▸ Cashflows</button>
     </div>
-    <!-- B -->
-    <div class="scen-card card-b">
-      <div class="scen-head"><div class="letter">B</div><div><div class="scen-title">Farm Buys (off BS)</div></div></div>
+    <!-- C (was B): Farm Buys -->
+    <div class="scen-card card-c">
+      <div class="scen-head"><div class="letter">C</div><div><div class="scen-title">Farm Buys (off BS)</div></div></div>
       <div class="scen-desc">Farm pays Eric equity minus his ownership share. Farm assumes USDA-RD + ops.</div>
       <div class="scen-metrics">
         <div class="sm"><div class="sm-label">Farm: Rent Saved /mo</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Eric: Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
-        <div class="sm"><div class="sm-label">Farm: Cost /mo (ex princ.)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm: Cost /mo (ex princ.)</div><div class="sm-val" id="b-mo" style="color:var(--sc)">—</div></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="b-val" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Net CF (<span class="sell-yr">10</span> yrs)</div><div class="sm-val" id="b-cumcf">—</div></div>
         <div class="sm"><div class="sm-label">Farm: IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div></div>
       </div>
       <button class="cf-toggle" onclick="toggleCF('b')">▸ Cashflows</button>
     </div>
-    <!-- C -->
-    <div class="scen-card card-c">
-      <div class="scen-head"><div class="letter">C</div><div><div class="scen-title">Market Refi + Mkt Rent</div></div></div>
+    <!-- D (was C): Market Refi -->
+    <div class="scen-card card-d">
+      <div class="scen-head"><div class="letter">D</div><div><div class="scen-title">Market Refi + Mkt Rent</div></div></div>
       <div class="scen-desc">Eric refis at market rate, charges market rent. Less housing security for farm.</div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Farm: Ag Rent /mo</div><div class="sm-val" id="c-farmrent" style="color:var(--sc)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm: Ag Rent /mo</div><div class="sm-val" id="c-farmrent" style="color:var(--sd)">—</div></div>
         <div class="sm"><div class="sm-label">Farm: Less Housing Security</div><div class="sm-val" style="color:var(--red);font-size:10px">⚠</div></div>
         <div class="sm"><div class="sm-label">Eric: P&L /yr (Yr 1)</div><div class="sm-val" id="c-pl">—</div></div>
         <div class="sm"><div class="sm-label">Eric: CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
@@ -224,20 +238,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm"><div class="sm-label">Eric: IRR (hold → sell)</div><div class="sm-val" id="c-irr">—</div></div>
       </div>
       <button class="cf-toggle" onclick="toggleCF('c')">▸ Cashflows</button>
-    </div>
-    <!-- D -->
-    <div class="scen-card card-d">
-      <div class="scen-head"><div class="letter">D</div><div><div class="scen-title">Eric Sells Now</div></div></div>
-      <div class="scen-desc">Eric sells now, pays off mortgage. Less housing security for farm.</div>
-      <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Farm: Ag Rent /mo</div><div class="sm-val" id="d-farmrent" style="color:var(--sd)">—</div></div>
-        <div class="sm"><div class="sm-label">Farm: Less Housing Security</div><div class="sm-val" style="color:var(--red);font-size:10px">⚠</div></div>
-        <div class="sm"><div class="sm-label">Eric: Net Proceeds</div><div class="sm-val" id="d-net" class="pos">—</div></div>
-        <div class="sm"><div class="sm-label">Eric: Net CF</div><div class="sm-val" id="d-cumcf" class="pos">—</div></div>
-        <div class="sm"><div class="sm-label">Eric: Sale Price</div><div class="sm-val" id="d-price" class="pos">—</div></div>
-        <div class="sm"><div class="sm-label">Eric: IRR (7 yr hold)</div><div class="sm-val" id="d-irr">—</div></div>
-      </div>
-      <button class="cf-toggle" onclick="toggleCF('d')">▸ Cashflows</button>
     </div>
   </div>
 
