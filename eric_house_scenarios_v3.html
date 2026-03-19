@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eric's House — 3 Scenarios</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #080f08;
+  --surf:      #0e1a0e;
+  --surf2:     #131f13;
+  --surf3:     #182218;
+  --bdr:       #1e301e;
+  --bdr2:      #2a422a;
+  --text:      #ddd6be;
+  --dim:       #9ab88a;   /* brightened from #8a9e7a */
+  --muted:     #6a8860;   /* brightened from #4d6040 */
+  --gold:      #d4a044;
+  --goldbr:    #f0c060;
+  --green:     #58cc7e;
+  --greendk:   #2d7a47;
+  --red:       #e06868;
+  --blue:      #78aadd;
+  --purple:    #b07ad4;
+  --track:     #1a2e1a;
+  --thumb:     #3a6a3a;
+
+  /* Scenario accent colors */
+  --sa: #78aadd;   /* A: rent — blue */
+  --sb: #58cc7e;   /* B: buy off-BS — green */
+  --sc: #e06868;   /* C: market refi — red */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;min-height:100vh;overflow-x:hidden}
+
+/* ── HEADER ── */
+header{background:var(--surf);border-bottom:1px solid var(--bdr);padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--text)}
+.chip{padding:2px 8px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase}
+.chip-a{background:rgba(120,170,221,0.15);border:1px solid rgba(120,170,221,0.4);color:var(--sa)}
+.chip-b{background:rgba(88,204,126,0.12);border:1px solid rgba(88,204,126,0.4);color:var(--sb)}
+.chip-c{background:rgba(224,104,104,0.12);border:1px solid rgba(224,104,104,0.4);color:var(--sc)}
+.chip-act{background:rgba(212,160,68,0.12);border:1px solid rgba(212,160,68,0.4);color:var(--goldbr)}
+header .spacer{flex:1}
+header .updated{font-size:9px;color:var(--muted);letter-spacing:0.08em}
+.hdr-btn{padding:3px 10px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border:1px solid;font-family:'Space Mono',monospace;transition:opacity .15s}
+.hdr-btn:hover{opacity:.8}
+.btn-save{background:rgba(88,204,126,0.12);border-color:rgba(88,204,126,0.4);color:var(--green)}
+.btn-reset{background:rgba(224,104,104,0.08);border-color:rgba(224,104,104,0.3);color:var(--red)}
+.save-flash{animation:flash .6s ease-out}
+@keyframes flash{0%{background:rgba(88,204,126,0.35)}100%{background:rgba(88,204,126,0.12)}}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 49px);overflow:hidden}
+.sidebar{background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.sidebar::-webkit-scrollbar{width:3px}.sidebar::-webkit-scrollbar-thumb{background:var(--bdr2)}
+.main{overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.main::-webkit-scrollbar{width:3px}.main::-webkit-scrollbar-thumb{background:var(--bdr)}
+
+/* ── SIDEBAR ── */
+.sh{font-size:8.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);padding:8px 3px 3px;border-top:1px solid var(--bdr);margin-top:3px;display:flex;justify-content:space-between;align-items:center}
+.sh:first-child{border-top:none;margin-top:0}
+.sh .tag{font-size:7.5px;font-weight:700;letter-spacing:0.06em;padding:1px 5px;border-radius:1px;text-transform:none;font-family:'Space Mono',monospace}
+.tag-act{background:rgba(88,204,126,0.12);color:var(--green)}
+.tag-sa{background:rgba(120,170,221,0.12);color:var(--sa)}
+.tag-sb{background:rgba(88,204,126,0.12);color:var(--sb)}
+.tag-sc{background:rgba(224,104,104,0.12);color:var(--sc)}
+
+.sr{display:flex;flex-direction:column;gap:3px;padding:4px 3px}
+.sr-top{display:flex;justify-content:space-between;align-items:baseline;gap:4px}
+.sr-label{font-size:10.5px;color:var(--dim);line-height:1.2}
+.sr-val{font-family:'Space Mono',monospace;font-size:10.5px;font-weight:700;color:var(--goldbr);white-space:nowrap;min-width:68px;text-align:right}
+input[type=range]{width:100%;height:3px;-webkit-appearance:none;background:var(--track);border-radius:2px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--thumb);border:2px solid var(--green);cursor:pointer;transition:all .12s}
+input[type=range]::-webkit-slider-thumb:hover{background:var(--green);transform:scale(1.25)}
+input[type=range].sa::-webkit-slider-thumb{border-color:var(--sa)}
+input[type=range].sb::-webkit-slider-thumb{border-color:var(--sb)}
+input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
+
+/* ── SCENARIO CARDS ROW ── */
+.scen-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.scen-card{border-radius:3px;border:1px solid var(--bdr2);overflow:hidden}
+.scen-head{padding:8px 12px;display:flex;align-items:center;gap:8px}
+.scen-head .letter{width:22px;height:22px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;flex-shrink:0}
+.scen-title{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;line-height:1.2}
+.scen-desc{font-size:9.5px;color:var(--muted);padding:0 12px 8px;line-height:1.45}
+.scen-metrics{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bdr);border-top:1px solid var(--bdr)}
+.sm{background:var(--surf2);padding:8px 10px}
+.sm-label{font-size:8px;text-transform:uppercase;letter-spacing:0.11em;color:var(--muted);font-weight:600;margin-bottom:3px}
+.sm-val{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;line-height:1}
+.sm-sub{font-size:8.5px;color:var(--muted);margin-top:2px}
+.sm.full{grid-column:1/-1}
+
+/* card color themes */
+.card-a .scen-head{background:rgba(120,170,221,0.08);border-bottom:1px solid rgba(120,170,221,0.2)}
+.card-a .letter{background:rgba(120,170,221,0.2);color:var(--sa)}
+.card-a .scen-title{color:var(--sa)}
+.card-b .scen-head{background:rgba(88,204,126,0.07);border-bottom:1px solid rgba(88,204,126,0.2)}
+.card-b .letter{background:rgba(88,204,126,0.18);color:var(--sb)}
+.card-b .scen-title{color:var(--sb)}
+.card-c .scen-head{background:rgba(224,104,104,0.07);border-bottom:1px solid rgba(224,104,104,0.2)}
+.card-c .letter{background:rgba(224,104,104,0.18);color:var(--sc)}
+.card-c .scen-title{color:var(--sc)}
+.pos{color:var(--green)} .neg{color:var(--red)} .gld{color:var(--goldbr)}
+
+/* ── ACTUALS BAR ── */
+.actuals{background:rgba(212,160,68,0.06);border:1px solid rgba(212,160,68,0.2);border-radius:3px;padding:7px 14px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.act-item{display:flex;flex-direction:column;gap:1px}
+.act-lbl{font-size:7.5px;text-transform:uppercase;letter-spacing:0.11em;color:var(--muted);font-weight:600}
+.act-val{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--goldbr)}
+.act-sep{width:1px;background:var(--bdr2);align-self:stretch}
+
+/* ── CHART ── */
+.chart-wrap{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;padding:12px 14px}
+.chart-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.chart-title{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--dim);font-weight:600}
+.legend{display:flex;gap:14px;margin-left:auto;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:5px;font-size:9px;color:var(--dim)}
+.leg-line{width:16px;height:2.5px;border-radius:2px}
+canvas{display:block;width:100%}
+
+/* ── COMPARISON TABLE ── */
+.tbl-wrap{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;overflow:hidden}
+.tbl-head{padding:7px 12px;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.13em;color:var(--muted);background:var(--surf2);border-bottom:1px solid var(--bdr)}
+table{width:100%;border-collapse:collapse}
+th{padding:5px 10px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);text-align:right;border-bottom:1px solid var(--bdr);background:var(--surf2);white-space:nowrap}
+th:first-child{text-align:left}
+th.sa{color:var(--sa)} th.sb{color:var(--sb)} th.sc{color:var(--sc)}
+td{padding:5px 10px;font-family:'Space Mono',monospace;font-size:10px;color:var(--text);text-align:right;border-bottom:1px solid var(--bdr);white-space:nowrap}
+td:first-child{font-family:'Outfit',sans-serif;font-size:10px;text-align:left;color:var(--dim)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,0.015)}
+.be-row td{border-top:1px solid rgba(88,204,126,0.35);border-bottom:1px solid rgba(88,204,126,0.35)}
+.be-row td:first-child{color:var(--green)}
+
+/* ── SUMMARY GRID ── */
+.summ-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sg{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;padding:9px 11px;position:relative;overflow:hidden}
+.sg::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--bdr2)}
+.sg.ga::before{background:var(--sa)} .sg.gb::before{background:var(--sb)} .sg.gc::before{background:var(--sc)} .sg.gx::before{background:var(--gold)}
+.sg-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.11em;color:var(--muted);margin-bottom:4px}
+.sg-val{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;line-height:1}
+.sg-sub{font-size:8.5px;color:var(--muted);margin-top:2px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Eric's House — Hokuula</h1>
+  <span class="chip chip-act">2025 Actuals</span>
+  <span class="chip chip-a">A: Below-Market Rent</span>
+  <span class="chip chip-b">B: Off-Balance-Sheet Buy</span>
+  <span class="chip chip-c">C: Market Refi + Market Rent</span>
+  <span class="spacer"></span>
+  <button class="hdr-btn btn-save" id="btn-save" onclick="saveSliders()">Save</button>
+  <button class="hdr-btn btn-reset" onclick="resetSliders()">Reset</button>
+  <span class="updated">USDA-RD · $466,887 bal · 1.00% · $1,690.53/mo · 26.2 yrs remaining · matures Jun 2052</span>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+
+  <div class="sh">Property</div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Home Value (est.)</span><span class="sr-val" id="v-hv">$900,000</span></div><input type="range" id="hv" min="200000" max="1500000" step="10000" value="900000"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Annual Appreciation</span><span class="sr-val" id="v-appr">2.00%</span></div><input type="range" id="appr" min="0" max="10" step="0.25" value="2"></div>
+
+  <div class="sh">Operating Costs <span class="tag tag-act">actuals</span></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Property Tax /yr</span><span class="sr-val" id="v-ptax">$6,000</span></div><input type="range" id="ptax" min="1000" max="25000" step="250" value="6000"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Insurance /yr ($1,525)</span><span class="sr-val" id="v-ins">$1,525</span></div><input type="range" id="ins" min="500" max="10000" step="250" value="1525"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Utilities /yr ($5,049)</span><span class="sr-val" id="v-utils">$5,049</span></div><input type="range" id="utils" min="0" max="15000" step="250" value="5049"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Maintenance /yr</span><span class="sr-val" id="v-maint">$6,000</span></div><input type="range" id="maint" min="0" max="15000" step="250" value="6000"></div>
+  <div style="padding:2px 3px 5px;font-size:8.5px;color:var(--muted)">HI GET: 4.50% applied to rent income (Scenarios A &amp; C only)</div>
+
+  <div class="sh">Scenario A <span class="tag tag-sa">below-mkt rent</span></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Monthly Rent (Farm → Eric)</span><span class="sr-val" id="v-ra">$3,500</span></div><input type="range" class="sa" id="ra" min="2000" max="6000" step="100" value="3500"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-ragr">3.00%</span></div><input type="range" class="sa" id="ragr" min="0" max="8" step="0.25" value="3"></div>
+
+  <div class="sh">Scenario B <span class="tag tag-sb">off-BS buy</span></div>
+  <small style="font-size:9px;color:var(--muted);padding:0 3px 4px;display:block">Equity = Home Value − Loan Balance. Farm assumes USDA-RD mortgage + pays ops directly. No GET (farm is owner).</small>
+
+  <div class="sh">Scenario C <span class="tag tag-sc">market refi</span></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">New Market Rate</span><span class="sr-val" id="v-mktrate">7.00%</span></div><input type="range" class="sc" id="mktrate" min="4" max="12" step="0.25" value="7"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">New Term (refi)</span><span class="sr-val" id="v-refterm">30 yrs</span></div><input type="range" class="sc" id="refterm" min="10" max="30" step="5" value="30"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Market Monthly Rent</span><span class="sr-val" id="v-rc">$4,500</span></div><input type="range" class="sc" id="rc" min="2500" max="8000" step="100" value="4500"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-rcgr">3.00%</span></div><input type="range" class="sc" id="rcgr" min="0" max="8" step="0.25" value="3"></div>
+
+  <div class="sh">Analysis</div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Discount Rate (opp. cost)</span><span class="sr-val" id="v-disc">8.0%</span></div><input type="range" id="disc" min="2" max="15" step="0.5" value="8"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Horizon</span><span class="sr-val" id="v-hor">25 yrs</span></div><input type="range" id="hor" min="5" max="30" step="1" value="25"></div>
+
+  <div class="sh">USDA-RD Loan (as-is) <span class="tag tag-act">exact</span></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Balance (Mar 2026 actual)</span><span class="sr-val" id="v-bal">$466,887</span></div><input type="range" id="bal" min="100000" max="700000" step="1000" value="466887"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Rate (USDA-RD, confirmed)</span><span class="sr-val" id="v-usdar">1.00%</span></div><input type="range" id="usdar" min="0.25" max="4" step="0.25" value="1"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Remaining Term (26.2 yrs)</span><span class="sr-val" id="v-term">26 yrs</span></div><input type="range" id="term" min="5" max="33" step="1" value="26"></div>
+  <div style="padding:2px 3px 5px;font-size:8.5px;color:var(--muted)">Payment: $1,690.53/mo · Matures Jun 2052 · Orig. $570K</div>
+
+</aside>
+<main class="main">
+
+  <div style="font-size:11px;color:var(--text);margin-bottom:2px">v03-18 19:15</div>
+
+  <!-- Scenario cards -->
+  <div class="scen-row">
+    <!-- A -->
+    <div class="scen-card card-a">
+      <div class="scen-head"><div class="letter">A</div><div><div class="scen-title">Below-Market Rent</div></div></div>
+      <div class="scen-desc">Farm pays Eric $3,500/mo (below market). Eric retains 100% of appreciation and equity. Farm has no asset, costs rise with rent growth.</div>
+      <div class="scen-metrics">
+        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div><div class="sm-sub">rent only</div></div>
+        <div class="sm"><div class="sm-label">Eric Net /yr (Yr 1)</div><div class="sm-val" id="a-eric">—</div><div class="sm-sub">after all costs</div></div>
+        <div class="sm"><div class="sm-label">Farm Cum. Cost (horizon)</div><div class="sm-val" id="a-cum">—</div><div class="sm-sub">all sunk</div></div>
+        <div class="sm"><div class="sm-label">Eric Equity @ Horizon</div><div class="sm-val" id="a-eq">—</div><div class="sm-sub">farm has $0</div></div>
+      </div>
+    </div>
+    <!-- B -->
+    <div class="scen-card card-b">
+      <div class="scen-head"><div class="letter">B</div><div><div class="scen-title">Off-Balance-Sheet Buy</div></div></div>
+      <div class="scen-desc">Farm pays Eric the equity (home value − loan balance), then assumes USDA-RD payments + ops. Farm captures appreciation. Structured to stay off farm's balance sheet.</div>
+      <div class="scen-metrics">
+        <div class="sm"><div class="sm-label">Equity Paid to Eric</div><div class="sm-val" id="b-eqpaid" style="color:var(--goldbr)">—</div><div class="sm-sub">upfront</div></div>
+        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div><div class="sm-sub">P&I + ops</div></div>
+        <div class="sm"><div class="sm-label">Farm Equity @ Horizon</div><div class="sm-val" id="b-eq" class="pos">—</div><div class="sm-sub">fully theirs</div></div>
+        <div class="sm"><div class="sm-label">NPV Adv. vs A</div><div class="sm-val" id="b-npv">—</div><div class="sm-sub">buy vs. rent (A)</div></div>
+      </div>
+    </div>
+    <!-- C -->
+    <div class="scen-card card-c">
+      <div class="scen-head"><div class="letter">C</div><div><div class="scen-title">Market Refi + Market Rent</div></div></div>
+      <div class="scen-desc">Eric refinances at market rate (~7%), charges $4,500/mo market rent. Farm pays more with no equity benefit. Eric's new P&L is tighter.</div>
+      <div class="scen-metrics">
+        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="c-mo" style="color:var(--sc)">—</div><div class="sm-sub">rent only</div></div>
+        <div class="sm"><div class="sm-label">Eric Net /yr (Yr 1)</div><div class="sm-val" id="c-eric">—</div><div class="sm-sub">after refi costs</div></div>
+        <div class="sm"><div class="sm-label">Farm Cum. Cost (horizon)</div><div class="sm-val" id="c-cum">—</div><div class="sm-sub">all sunk</div></div>
+        <div class="sm"><div class="sm-label">Premium vs Scen. A</div><div class="sm-val" id="c-prem">—</div><div class="sm-sub">extra farm pays</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary metrics row -->
+  <div class="summ-grid">
+    <div class="sg ga"><div class="sg-label">A · Farm NPV Cost</div><div class="sg-val" id="s-anpv" style="color:var(--sa)">—</div><div class="sg-sub">PV of all rent paid</div></div>
+    <div class="sg gb"><div class="sg-label">B · Farm NPV Net Cost</div><div class="sg-val" id="s-bnpv" style="color:var(--sb)">—</div><div class="sg-sub">PV costs − equity</div></div>
+    <div class="sg gc"><div class="sg-label">C · Farm NPV Cost</div><div class="sg-val" id="s-cnpv" style="color:var(--sc)">—</div><div class="sg-sub">PV of all rent paid</div></div>
+    <div class="sg gx"><div class="sg-label">B Break-Even vs A</div><div class="sg-val" id="s-be" style="color:var(--goldbr)">—</div><div class="sg-sub">year buying wins</div></div>
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-wrap">
+    <div class="chart-header">
+      <div class="chart-title">Farm Cumulative Cash Out &amp; Net Position</div>
+      <div class="legend">
+        <div class="leg"><div class="leg-line" style="background:var(--sa)"></div>A: Cum. Rent</div>
+        <div class="leg"><div class="leg-line" style="background:var(--sb)"></div>B: Cum. Cost (own)</div>
+        <div class="leg"><div class="leg-line" style="background:var(--green);opacity:.7"></div>B: Net (cost−equity)</div>
+        <div class="leg"><div class="leg-line" style="background:var(--sc)"></div>C: Cum. Rent</div>
+      </div>
+    </div>
+    <canvas id="chart" height="200"></canvas>
+  </div>
+
+  <!-- Year table -->
+  <div class="tbl-wrap">
+    <div class="tbl-head">Year-by-Year Comparison (Farm Perspective)</div>
+    <table>
+      <thead><tr>
+        <th>Year</th>
+        <th>Home Value</th>
+        <th class="sa">A · Rent/yr</th>
+        <th class="sa">A · Cum. Paid</th>
+        <th class="sb">B · Cost/yr</th>
+        <th class="sb">B · Equity</th>
+        <th class="sb">B · Net Position</th>
+        <th class="sc">C · Rent/yr</th>
+        <th class="sc">C · Cum. Paid</th>
+        <th>B vs A Adv.</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ── UTILS ──────────────────────────────────────────────────────────
+const fmt = n => (n<0?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString();
+const fmtK = n => {
+  const s=n<0?'-':''; const a=Math.abs(n);
+  if(a>=1e6) return s+'$'+(a/1e6).toFixed(2)+'M';
+  if(a>=1e3) return s+'$'+(a/1e3).toFixed(0)+'K';
+  return s+'$'+a.toFixed(0);
+};
+const g = id => +document.getElementById(id).value;
+
+function moPmt(P,r,n){
+  const rm=r/12,nm=n*12;
+  if(r===0) return P/nm;
+  return P*rm*Math.pow(1+rm,nm)/(Math.pow(1+rm,nm)-1);
+}
+function remBal(P,r,n,moPaid){
+  const rm=r/12,nm=n*12,M=moPmt(P,r,n);
+  if(moPaid>=nm) return 0;
+  if(rm===0) return Math.max(0,P-M*moPaid);
+  return P*Math.pow(1+rm,moPaid)-M*(Math.pow(1+rm,moPaid)-1)/rm;
+}
+
+// ── COMPUTE ───────────────────────────────────────────────────────
+function compute(){
+  const hv0    = g('hv');
+  const appr   = g('appr')/100;
+  const bal    = g('bal');
+  const usdar  = g('usdar')/100;
+  const term   = g('term');
+  const ptax   = g('ptax');
+  const ins    = g('ins');
+  const utils  = g('utils');
+  const maint  = g('maint');
+  const getR   = 0.045; // HI GET 4.5%, applied to rent (A & C only)
+  const ra0    = g('ra');
+  const ragr   = g('ragr')/100;
+  const mktrate= g('mktrate')/100;
+  const refterm= g('refterm');
+  const rc0    = g('rc');
+  const rcgr   = g('rcgr')/100;
+  const disc   = g('disc')/100;
+  const hor    = g('hor');
+
+  const piUsda = moPmt(bal, usdar, term);
+  const piMkt  = moPmt(bal, mktrate, refterm); // Eric's new payment if refi
+  const annOps = ptax + ins + utils + maint;   // ops paid by owner
+
+  // Equity paid in Scenario B (auto: home value − loan balance)
+  const eqPaid  = Math.max(0, hv0 - bal);
+
+  // Scen A: farm pays rent, Eric pays all costs (ops + mortgage)
+  // Eric revenue in A: rent - (ops + usda P&I interest portion) - GET
+  // For simplicity: Eric net = rent*12 - annOps - USDA interest - GET on rent
+  const usdaIntYr1 = bal * usdar; // approx yr1 interest
+  const getOnRentA = ra0*12*getR;
+  const ericNetA   = ra0*12 - annOps - usdaIntYr1 - getOnRentA;
+
+  // Scen C: Eric's new P&I + ops vs market rent
+  const getOnRentC = rc0*12*getR;
+  const ericNetC   = rc0*12 - annOps - piMkt*12 - getOnRentC;
+
+  // Year arrays
+  const years=[];
+  let cumA=0, cumB=0, cumC=0;
+  let pvA=0, pvB=0, pvC=0;
+  let beYear=null;
+
+  // Add equity payment to B cumulative (upfront at t=0)
+  cumB = eqPaid;
+  pvB  = eqPaid; // at t=0, no discounting
+
+  for(let yr=1;yr<=hor;yr++){
+    const hv = hv0*Math.pow(1+appr,yr);
+    const termMos = term*12;
+    let aBuy=0, bBuy=0, cBuy=0;
+
+    for(let m=1;m<=12;m++){
+      const mo=(yr-1)*12+m;
+      const t=mo/12;
+      const df=1/Math.pow(1+disc,t);
+
+      // A: farm pays rent
+      const rentA = ra0*Math.pow(1+ragr,(mo-1)/12);
+      aBuy += rentA; cumA += rentA; pvA += rentA*df;
+
+      // B: farm pays USDA-RD P&I + ops (no GET since farm is owner)
+      const piB = mo<=termMos ? piUsda : 0;
+      const opsMo = annOps/12;
+      bBuy += piB+opsMo; cumB += piB+opsMo; pvB += (piB+opsMo)*df;
+
+      // C: farm pays market rent
+      const rentC = rc0*Math.pow(1+rcgr,(mo-1)/12);
+      cBuy += rentC; cumC += rentC; pvC += rentC*df;
+    }
+
+    // B equity at end of year
+    const rl = remBal(bal, usdar, term, yr*12);
+    const eqB = hv - rl; // gross equity (appreciated)
+
+    // B net position: cumulative cost (incl equity payment) minus equity gained
+    const bNet = cumB - eqB;
+
+    // A&C "equity": 0 (all sunk)
+    // Advantage of B over A: A sunk cost vs B net
+    const bVsA = cumA - bNet; // positive = B better
+
+    if(beYear===null && bVsA>0) beYear=yr;
+
+    years.push({yr,hv,rl,eqB,aBuy,bBuy,cBuy,cumA,cumB,cumC,bNet,bVsA});
+  }
+
+  const finalYr = years[years.length-1];
+  const termDF  = 1/Math.pow(1+disc,hor);
+  // NPV net cost for B: PV of outflows - PV of terminal equity
+  const pvBNet = pvB - finalYr.eqB*termDF;
+
+  return {
+    piUsda, piMkt, eqPaid, ericNetA, ericNetC,
+    ra0, rc0, annOps, hv0,
+    years, beYear, pvA, pvBNet, pvC,
+    finalYr
+  };
+}
+
+// ── DRAW CHART ─────────────────────────────────────────────────────
+function drawChart(years){
+  const canvas=document.getElementById('chart');
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.parentElement.clientWidth-28;
+  const H=200;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
+
+  const pad={t:10,r:14,b:28,l:62};
+  const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
+
+  const allV=years.flatMap(d=>[d.cumA,d.cumB,d.cumC,d.bNet]);
+  const minV=Math.min(0,...allV), maxV=Math.max(...allV)*1.04;
+  const rng=maxV-minV;
+  const xS=i=>pad.l+(i/(years.length-1))*cw;
+  const yS=v=>pad.t+ch-((v-minV)/rng)*ch;
+
+  // Grid lines — brighter now
+  for(let i=0;i<=4;i++){
+    const v=minV+rng*i/4;
+    const y=yS(v);
+    ctx.strokeStyle='#233823'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(pad.l+cw,y); ctx.stroke();
+    // Bright axis labels
+    ctx.fillStyle='#8ab87a';   // was #4d6040 — significantly brighter
+    ctx.font='10px Outfit'; ctx.textAlign='right';
+    ctx.fillText(fmtK(v), pad.l-5, y+3.5);
+  }
+
+  // Zero line
+  const y0=yS(0);
+  ctx.strokeStyle='#3a5a3a'; ctx.lineWidth=1; ctx.setLineDash([3,4]);
+  ctx.beginPath(); ctx.moveTo(pad.l,y0); ctx.lineTo(pad.l+cw,y0); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // X labels — brighter
+  const step=Math.ceil(years.length/7);
+  ctx.fillStyle='#8ab87a';   // was #4d6040
+  ctx.font='10px Outfit'; ctx.textAlign='center';
+  years.forEach((d,i)=>{
+    if(i%step===0||i===years.length-1)
+      ctx.fillText('Yr '+d.yr, xS(i), H-pad.b+14);
+  });
+
+  function line(data,color,dash=false,lw=2){
+    ctx.beginPath(); ctx.strokeStyle=color; ctx.lineWidth=lw;
+    ctx.setLineDash(dash?[4,4]:[]);
+    data.forEach((v,i)=>{const x=xS(i),y=yS(v);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y)});
+    ctx.stroke(); ctx.setLineDash([]);
+    // endpoint dot
+    const lv=data[data.length-1];
+    ctx.beginPath(); ctx.arc(xS(data.length-1),yS(lv),3.5,0,Math.PI*2);
+    ctx.fillStyle=color; ctx.fill();
+    // endpoint label
+    ctx.fillStyle=color;
+    ctx.font='bold 9px Space Mono'; ctx.textAlign='left';
+    ctx.fillText(fmtK(lv), xS(data.length-1)+6, yS(lv)+3);
+  }
+
+  line(years.map(d=>d.cumA),  '#78aadd');
+  line(years.map(d=>d.cumC),  '#e06868');
+  line(years.map(d=>d.cumB),  '#d4a044', false, 1.5);
+  line(years.map(d=>d.bNet),  '#58cc7e', true, 2);
+}
+
+// ── BUILD TABLE ────────────────────────────────────────────────────
+function buildTable(years, beYear){
+  const step=years.length<=15?1:2;
+  document.getElementById('tbody').innerHTML=years
+    .filter(d=>d.yr===1||d.yr===beYear||d.yr%step===0||d.yr===years.length-1)
+    .map(d=>{
+      const isBE=d.yr===beYear;
+      return `<tr${isBE?' class="be-row"':''}>
+        <td>${isBE?'★ ':''}Year ${d.yr}${isBE?' ✓':''}
+        <td>${fmt(d.hv)}</td>
+        <td style="color:var(--sa)">${fmt(d.aBuy)}</td>
+        <td style="color:var(--sa)">${fmt(d.cumA)}</td>
+        <td style="color:var(--sb)">${fmt(d.bBuy)}</td>
+        <td class="pos">${fmt(d.eqB)}</td>
+        <td class="${d.bNet<0?'pos':'neg'}">${fmtK(d.bNet)}</td>
+        <td style="color:var(--sc)">${fmt(d.cBuy)}</td>
+        <td style="color:var(--sc)">${fmt(d.cumC)}</td>
+        <td class="${d.bVsA>=0?'pos':'neg'}">${fmtK(d.bVsA)}</td>
+      </tr>`;
+    }).join('');
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function render(){
+  const r=compute();
+
+  // Scenario A card
+  document.getElementById('a-mo').textContent = fmt(r.ra0);
+  const ericA = r.ericNetA;
+  document.getElementById('a-eric').textContent = fmtK(ericA);
+  document.getElementById('a-eric').className = 'sm-val '+(ericA>=0?'pos':'neg');
+  document.getElementById('a-cum').textContent  = fmtK(r.finalYr.cumA);
+  document.getElementById('a-eq').textContent   = fmtK(r.finalYr.eqB);
+
+  // Scenario B card
+  document.getElementById('b-eqpaid').textContent = fmtK(r.eqPaid);
+  document.getElementById('b-mo').textContent     = fmt(r.piUsda + r.annOps/12);
+  const bEq = r.finalYr.eqB;
+  document.getElementById('b-eq').textContent  = fmtK(bEq);
+  document.getElementById('b-eq').className    = 'sm-val pos';
+  const bNpv = r.pvA - r.pvBNet;
+  document.getElementById('b-npv').textContent = fmtK(bNpv);
+  document.getElementById('b-npv').className   = 'sm-val '+(bNpv>=0?'pos':'neg');
+
+  // Scenario C card
+  document.getElementById('c-mo').textContent  = fmt(r.rc0);
+  const ericC = r.ericNetC;
+  document.getElementById('c-eric').textContent = fmtK(ericC);
+  document.getElementById('c-eric').className   = 'sm-val '+(ericC>=0?'pos':'neg');
+  document.getElementById('c-cum').textContent  = fmtK(r.finalYr.cumC);
+  const premC = r.finalYr.cumC - r.finalYr.cumA;
+  document.getElementById('c-prem').textContent = fmtK(premC);
+  document.getElementById('c-prem').className   = 'sm-val neg';
+
+  // Summary row
+  document.getElementById('s-anpv').textContent = fmtK(r.pvA);
+  document.getElementById('s-bnpv').textContent = fmtK(r.pvBNet);
+  document.getElementById('s-cnpv').textContent = fmtK(r.pvC);
+  document.getElementById('s-be').textContent   = r.beYear ? 'Year '+r.beYear : 'None';
+
+  drawChart(r.years);
+  buildTable(r.years, r.beYear);
+}
+
+// ── SLIDER LABELS ─────────────────────────────────────────────────
+const fmtrs={
+  hv:v=>'$'+Number(v).toLocaleString(), appr:v=>Number(v).toFixed(2)+'%',
+  bal:v=>'$'+Number(v).toLocaleString(), usdar:v=>Number(v).toFixed(2)+'%',
+  term:v=>v+' yrs', ptax:v=>'$'+Number(v).toLocaleString(),
+  ins:v=>'$'+Number(v).toLocaleString(), utils:v=>'$'+Number(v).toLocaleString(),
+  maint:v=>'$'+Number(v).toLocaleString(),
+  ra:v=>'$'+Number(v).toLocaleString(), ragr:v=>Number(v).toFixed(2)+'%',
+  mktrate:v=>Number(v).toFixed(2)+'%', refterm:v=>v+' yrs',
+  rc:v=>'$'+Number(v).toLocaleString(), rcgr:v=>Number(v).toFixed(2)+'%',
+  disc:v=>Number(v).toFixed(1)+'%', hor:v=>v+' yrs',
+};
+document.querySelectorAll('input[type=range]').forEach(el=>{
+  el.addEventListener('input',()=>{
+    const fn=fmtrs[el.id];
+    if(fn) document.getElementById('v-'+el.id).textContent=fn(el.value);
+    render();
+  });
+});
+
+// ── SAVE / LOAD / RESET ──────────────────────────────────────────
+const STORAGE_KEY = 'eric-house-sliders';
+
+function saveSliders(){
+  const vals={};
+  document.querySelectorAll('input[type=range]').forEach(el=>{ vals[el.id]=el.value; });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(vals));
+  const btn=document.getElementById('btn-save');
+  btn.textContent='Saved ✓'; btn.classList.add('save-flash');
+  setTimeout(()=>{btn.textContent='Save'; btn.classList.remove('save-flash');},1200);
+}
+
+function resetSliders(){
+  localStorage.removeItem(STORAGE_KEY);
+  const defaults={hv:'900000',appr:'2',bal:'466887',usdar:'1',term:'26',ptax:'6000',ins:'1525',utils:'5049',maint:'6000',ra:'3500',ragr:'3',mktrate:'7',refterm:'30',rc:'4500',rcgr:'3',disc:'8',hor:'25'};
+  Object.entries(defaults).forEach(([id,val])=>{
+    const el=document.getElementById(id);
+    if(el){el.value=val; const fn=fmtrs[id]; if(fn) document.getElementById('v-'+id).textContent=fn(val);}
+  });
+  render();
+}
+
+function loadSliders(){
+  const saved=localStorage.getItem(STORAGE_KEY);
+  if(!saved) return;
+  const vals=JSON.parse(saved);
+  Object.entries(vals).forEach(([id,val])=>{
+    const el=document.getElementById(id);
+    if(el){el.value=val; const fn=fmtrs[id]; if(fn) document.getElementById('v-'+id).textContent=fn(val);}
+  });
+}
+
+loadSliders();
+render();
+window.addEventListener('resize',()=>{const r=compute();drawChart(r.years);});
+</script>
+</body>
+</html>
