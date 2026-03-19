@@ -371,7 +371,7 @@ function compute(){
   // t1..sellYr = avoided rent (savings) - (P&I + ops)
   // t_sellYr += home value - remaining balance (sale proceeds)
   const rentSavedYr1 = ra0*12; // ag rent farm no longer pays
-  const irrCfsB = [-ericGets];
+  const irrCfsB = [-eqTotal]; // full equity outlay (Eric gets 75%, his 25% is contribution)
   for(let yr=1;yr<=sellYr;yr++){
     const rentSaved = ra0*12*Math.pow(1+ragr,yr-1);
     const piYrB = (yr*12 <= term*12) ? piUsda*12 : 0;
