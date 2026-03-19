@@ -138,7 +138,7 @@ tr:hover td{background:rgba(255,255,255,0.015)}
   <h1>Eric's House</h1>
   <span class="spacer"></span>
   <button class="hdr-btn btn-save" id="btn-save" onclick="saveSliders()">Save</button>
-  <span style="font-size:11px;color:var(--text)">v03-18 21:00</span>
+  <span style="font-size:11px;color:var(--text)">v03-18 21:15</span>
 </header>
 
 <div class="layout" id="layout">
@@ -161,6 +161,7 @@ tr:hover td{background:rgba(255,255,255,0.015)}
   <div class="sh">B <span class="tag tag-sb">buy</span></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">John Contributes?</span><span class="sr-val" id="v-jcon">Yes</span></div><input type="range" class="sb" id="jcon" min="0" max="1" step="1" value="1"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Farm Value (for dilution)</span><span class="sr-val" id="v-fval">$12.5M</span></div><input type="range" class="sb" id="fval" min="10000000" max="15000000" step="500000" value="12500000"></div>
+  <div style="padding:2px 3px 4px;font-size:9px;color:var(--dim)">John: <span id="sb-jown" style="font-family:'Space Mono',monospace;font-weight:700">35.0%</span></div>
 
   <div class="sh">C <span class="tag tag-sc">refi</span></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">New Market Rate</span><span class="sr-val" id="v-mktrate">7.00%</span></div><input type="range" class="sc" id="mktrate" min="4" max="12" step="0.25" value="7"></div>
@@ -171,7 +172,7 @@ tr:hover td{background:rgba(255,255,255,0.015)}
   <div class="sh">Analysis</div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Discount Rate</span><span class="sr-val" id="v-disc">8.0%</span></div><input type="range" id="disc" min="2" max="15" step="0.5" value="8"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Horizon</span><span class="sr-val" id="v-hor">25 yrs</span></div><input type="range" id="hor" min="5" max="30" step="1" value="25"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Eric Sell Year</span><span class="sr-val" id="v-sell">10 yrs</span></div><input type="range" id="sell" min="1" max="30" step="1" value="10"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Sell Year</span><span class="sr-val" id="v-sell">10 yrs</span></div><input type="range" id="sell" min="1" max="30" step="1" value="10"></div>
 
   <div class="sh">USDA-RD Loan <span class="tag tag-act">fixed</span></div>
   <div style="padding:4px 3px;font-size:9px;color:var(--dim);line-height:1.5">$466,887 bal · 1.00% · 26 yrs<br>$1,691/mo · Jun 2052</div>
@@ -188,8 +189,7 @@ tr:hover td{background:rgba(255,255,255,0.015)}
       <div class="scen-head"><div class="letter">A</div><div><div class="scen-title">Ag Rent</div></div></div>
       <div class="scen-desc">Farm pays Eric below-market rent. Eric keeps house, mortgage, appreciation. Farm builds zero equity.</div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div></div>
-        <div class="sm"><div class="sm-label">Farm Cum. Cost (horizon)</div><div class="sm-val" id="a-cum">—</div></div>
+        <div class="sm"><div class="sm-label">Ag Rent /mo (Yr 1)</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div></div>
         <div class="sm"><div class="sm-label">Eric P&L /yr (Yr 1)</div><div class="sm-val" id="a-pl">—</div></div>
         <div class="sm"><div class="sm-label">Eric CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div></div>
         <div class="sm"><div class="sm-label">Eric Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div></div>
@@ -202,23 +202,19 @@ tr:hover td{background:rgba(255,255,255,0.015)}
       <div class="scen-desc">Farm pays Eric 75% of equity (his 25% is his capital contribution). Eric: 25%, John: 35%, JJB: 40%.</div>
       <div class="scen-metrics">
         <div class="sm"><div class="sm-label">Eric Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
-        <div class="sm"><div class="sm-label">John's Share (35%)</div><div class="sm-val" id="b-john" style="color:var(--sb)">—</div></div>
-        <div class="sm"><div class="sm-label">JJB's Share (40%)</div><div class="sm-val" id="b-jjb" style="color:var(--sb)">—</div></div>
         <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
         <div class="sm"><div class="sm-label">Farm Equity @ Horizon</div><div class="sm-val" id="b-eq" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">NPV Adv. vs A</div><div class="sm-val" id="b-npv">—</div></div>
-        <div class="sm"><div class="sm-label">Farm IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div></div>
-        <div class="sm"><div class="sm-label">John Own. (post)</div><div class="sm-val" id="b-jown">—</div></div>
+        <div class="sm"><div class="sm-label">Farm IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div><div class="sm-sub">no rent expense</div></div>
         <div class="sm"><div class="sm-label">Break-Even vs A</div><div class="sm-val" id="b-be" style="color:var(--goldbr)">—</div></div>
       </div>
     </div>
     <!-- C -->
     <div class="scen-card card-c">
       <div class="scen-head"><div class="letter">C</div><div><div class="scen-title">Market Refi + Market Rent</div></div></div>
-      <div class="scen-desc">Eric refinances at market rate, charges market rent. Farm pays more with no equity. Eric's cash flow tighter.</div>
+      <div class="scen-desc">Eric refinances at market rate, charges market rent. Farm pays more with no equity. Farm needs to find other housing.</div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="c-mo" style="color:var(--sc)">—</div></div>
-        <div class="sm"><div class="sm-label">Farm Cum. Cost (horizon)</div><div class="sm-val" id="c-cum">—</div></div>
+        <div class="sm"><div class="sm-label">Market Rent /mo (Yr 1)</div><div class="sm-val" id="c-mo" style="color:var(--sc)">—</div></div>
         <div class="sm"><div class="sm-label">Eric P&L /yr (Yr 1)</div><div class="sm-val" id="c-pl">—</div></div>
         <div class="sm"><div class="sm-label">Eric CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
         <div class="sm"><div class="sm-label">Eric Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="c-sale">—</div></div>
@@ -492,9 +488,13 @@ function render(){
   // Update sell year labels
   document.querySelectorAll('.sell-yr').forEach(el=>{el.textContent=r.sellYr});
 
+  // Sidebar dilution display
+  const jEl = document.getElementById('sb-jown');
+  jEl.textContent = (r.johnOwnPost*100).toFixed(1)+'%';
+  jEl.style.color = r.jcon ? 'var(--green)' : 'var(--red)';
+
   // Scenario A card
   document.getElementById('a-mo').textContent = fmt(r.ra0);
-  document.getElementById('a-cum').textContent = fmtK(r.finalYr.cumA);
   document.getElementById('a-pl').textContent = fmtK(r.ericPLA);
   document.getElementById('a-pl').className = 'sm-val '+(r.ericPLA>=0?'pos':'neg');
   document.getElementById('a-cf').textContent = fmtK(r.ericCFA);
@@ -506,8 +506,6 @@ function render(){
 
   // Scenario B card
   document.getElementById('b-ericnet').textContent = fmtK(r.ericGets);
-  document.getElementById('b-john').textContent = r.jcon ? fmtK(r.johnShare) : 'skipped';
-  document.getElementById('b-jjb').textContent = r.jcon ? fmtK(r.jjbShare) : fmtK(r.jjbShare + r.johnShare);
   document.getElementById('b-mo').textContent = fmt(r.piUsda + r.annOps/12);
   document.getElementById('b-eq').textContent = fmtK(r.finalYr.eqB);
   document.getElementById('b-eq').className = 'sm-val pos';
@@ -516,13 +514,10 @@ function render(){
   document.getElementById('b-npv').className = 'sm-val '+(bNpv>=0?'pos':'neg');
   document.getElementById('b-irr').textContent = fmtPct(r.irrB);
   document.getElementById('b-irr').className = 'sm-val '+(r.irrB>=0?'pos':'neg');
-  document.getElementById('b-jown').textContent = (r.johnOwnPost*100).toFixed(1)+'%';
-  document.getElementById('b-jown').className = 'sm-val '+(r.jcon?'pos':'neg');
   document.getElementById('b-be').textContent = r.beYear ? 'Year '+r.beYear : 'None';
 
   // Scenario C card
   document.getElementById('c-mo').textContent = fmt(r.rc0);
-  document.getElementById('c-cum').textContent = fmtK(r.finalYr.cumC);
   document.getElementById('c-pl').textContent = fmtK(r.ericPLC);
   document.getElementById('c-pl').className = 'sm-val '+(r.ericPLC>=0?'pos':'neg');
   document.getElementById('c-cf').textContent = fmtK(r.ericCFC);
