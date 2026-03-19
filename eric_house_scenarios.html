@@ -31,13 +31,13 @@
   --sd: #b07ad4;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:15px;min-height:100vh;overflow-x:hidden}
 
 /* ── HEADER ── */
 header{background:var(--surf);border-bottom:1px solid var(--bdr);padding:10px 20px;display:flex;align-items:center;gap:12px}
-header h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--text)}
+header h1{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--text)}
 header .spacer{flex:1}
-.hdr-btn{padding:3px 10px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border:1px solid;font-family:'Space Mono',monospace;transition:opacity .15s}
+.hdr-btn{padding:3px 10px;border-radius:2px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border:1px solid;font-family:'Space Mono',monospace;transition:opacity .15s}
 .hdr-btn:hover{opacity:.8}
 .btn-save{background:rgba(88,204,126,0.12);border-color:rgba(88,204,126,0.4);color:var(--green)}
 .save-flash{animation:flash .6s ease-out}
@@ -57,9 +57,9 @@ header .spacer{flex:1}
 .layout.collapsed .sb-toggle{transform:scaleX(-1)}
 
 /* ── SIDEBAR ── */
-.sh{font-size:8.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);padding:8px 3px 3px;border-top:1px solid var(--bdr);margin-top:3px;display:flex;justify-content:space-between;align-items:center}
+.sh{font-size:10.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);padding:8px 3px 3px;border-top:1px solid var(--bdr);margin-top:3px;display:flex;justify-content:space-between;align-items:center}
 .sh:first-child{border-top:none;margin-top:0}
-.sh .tag{font-size:7.5px;font-weight:700;letter-spacing:0.06em;padding:1px 5px;border-radius:1px;text-transform:none;font-family:'Space Mono',monospace}
+.sh .tag{font-size:9.5px;font-weight:700;letter-spacing:0.06em;padding:1px 5px;border-radius:1px;text-transform:none;font-family:'Space Mono',monospace}
 .tag-act{background:rgba(88,204,126,0.12);color:var(--green)}
 .tag-sa{background:rgba(120,170,221,0.12);color:var(--sa)}
 .tag-sb{background:rgba(88,204,126,0.12);color:var(--sb)}
@@ -67,8 +67,8 @@ header .spacer{flex:1}
 
 .sr{display:flex;flex-direction:column;gap:3px;padding:4px 3px}
 .sr-top{display:flex;justify-content:space-between;align-items:baseline;gap:4px}
-.sr-label{font-size:10.5px;color:var(--dim);line-height:1.2;white-space:nowrap}
-.sr-val{font-family:'Space Mono',monospace;font-size:10.5px;font-weight:700;color:var(--goldbr);white-space:nowrap;min-width:68px;text-align:right}
+.sr-label{font-size:12.5px;color:var(--dim);line-height:1.2;white-space:nowrap}
+.sr-val{font-family:'Space Mono',monospace;font-size:12.5px;font-weight:700;color:var(--goldbr);white-space:nowrap;min-width:68px;text-align:right}
 input[type=range]{width:100%;height:3px;-webkit-appearance:none;background:var(--track);border-radius:2px;outline:none;cursor:pointer}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--thumb);border:2px solid var(--green);cursor:pointer;transition:all .12s}
 input[type=range]::-webkit-slider-thumb:hover{background:var(--green);transform:scale(1.25)}
@@ -80,14 +80,14 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 .scen-row{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto auto auto;gap:0 10px}
 .scen-card{border-radius:3px;border:1px solid var(--bdr2);overflow:hidden;display:grid;grid-template-rows:subgrid;grid-row:span 4}
 .scen-head{padding:8px 12px;display:flex;align-items:center;gap:8px}
-.scen-head .letter{width:22px;height:22px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;flex-shrink:0}
-.scen-title{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;line-height:1.2}
-.scen-desc{font-size:9.5px;color:var(--muted);padding:0 12px 8px;line-height:1.45}
+.scen-head .letter{width:24px;height:24px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;flex-shrink:0}
+.scen-title{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;line-height:1.2}
+.scen-desc{font-size:11.5px;color:var(--muted);padding:0 12px 8px;line-height:1.45}
 .scen-metrics{border-top:1px solid var(--bdr)}
 .sm{background:var(--surf2);padding:6px 10px;border-bottom:1px solid var(--bdr)}
-.sm-label{font-size:8px;text-transform:uppercase;letter-spacing:0.11em;color:var(--muted);font-weight:600;margin-bottom:2px}
-.sm-val{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;line-height:1}
-.sm-sub{font-size:8.5px;color:var(--muted);margin-top:2px}
+.sm-label{font-size:10px;text-transform:uppercase;letter-spacing:0.11em;color:var(--muted);font-weight:600;margin-bottom:2px}
+.sm-val{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;line-height:1}
+.sm-sub{font-size:10.5px;color:var(--muted);margin-top:2px}
 .cf-details-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 
 /* card color themes */
@@ -106,14 +106,18 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 .pos{color:var(--green)} .neg{color:var(--red)} .gld{color:var(--goldbr)}
 
 /* ── CASHFLOW DETAIL ── */
-.cf-toggle{width:100%;padding:4px 12px;background:var(--surf3);border:none;border-top:1px solid var(--bdr);color:var(--muted);font-size:8px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;text-align:left;font-family:'Outfit',sans-serif}
+.cf-toggle{width:100%;padding:5px 12px;background:var(--surf3);border:none;border-top:1px solid var(--bdr);color:var(--muted);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;text-align:left;font-family:'Outfit',sans-serif}
 .cf-toggle:hover{color:var(--dim)}
-.cf-detail{display:none;border-top:1px solid var(--bdr)}
+.cf-detail{display:none;background:var(--surf);border:1px solid var(--bdr);border-radius:3px;margin-top:6px;overflow:hidden}
 .cf-detail.open{display:block}
+.cf-detail-head{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:var(--surf2);border-bottom:1px solid var(--bdr)}
+.cf-detail-title{font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:0.1em}
+.cf-close{background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;padding:0 4px}
+.cf-close:hover{color:var(--text)}
 .cf-detail table{width:100%;border-collapse:collapse}
-.cf-detail th{padding:3px 6px;font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);text-align:right;border-bottom:1px solid var(--bdr);background:var(--surf2);white-space:nowrap}
+.cf-detail th{padding:4px 8px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);text-align:right;border-bottom:1px solid var(--bdr);background:var(--surf2);white-space:nowrap}
 .cf-detail th:first-child{text-align:left}
-.cf-detail td{padding:3px 6px;font-family:'Space Mono',monospace;font-size:9px;color:var(--text);text-align:right;border-bottom:1px solid var(--bdr);white-space:nowrap}
+.cf-detail td{padding:4px 8px;font-family:'Space Mono',monospace;font-size:11px;color:var(--text);text-align:right;border-bottom:1px solid var(--bdr);white-space:nowrap}
 .cf-detail td:first-child{font-family:'Outfit',sans-serif;text-align:left;color:var(--dim)}
 .cf-detail tr:last-child td{border-bottom:none}
 .cf-detail .cf-total td{border-top:1px solid var(--bdr2);font-weight:700}
@@ -435,10 +439,14 @@ function compute(){
 
 // ── CASHFLOW DETAIL TABLES ────────────────────────────────────────
 function toggleCF(id){
+  // Close all others first
+  document.querySelectorAll('.cf-detail.open').forEach(el=>el.classList.remove('open'));
   const el=document.getElementById('cf-'+id);
-  const btn=el.previousElementSibling;
-  el.classList.toggle('open');
-  btn.textContent=el.classList.contains('open')?'▾ Cashflows':'▸ Cashflows';
+  el.classList.add('open');
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function closeCF(id){
+  document.getElementById('cf-'+id).classList.remove('open');
 }
 
 function buildCFTables(r){
@@ -448,7 +456,7 @@ function buildCFTables(r){
     return `<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops-d.get)}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>`+
       (isSell?`<td>${fmt(d.hvYr)}</td><td class="neg">${fmt(-d.rl)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
   }).join('');
-  document.getElementById('cf-a').innerHTML=`<table><thead><tr><th>Yr</th><th>Rent In</th><th>Exp</th><th>P&I</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${aRows}</tbody></table>`;
+  document.getElementById('cf-a').innerHTML=`<div class="cf-detail-head"><span class="cf-detail-title">A · Ag Rent — Cashflows</span><button class="cf-close" onclick="closeCF('a')">✕</button></div><table><thead><tr><th>Yr</th><th>Rent In</th><th>Exp</th><th>P&I</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${aRows}</tbody></table>`;
 
   // B: Farm perspective
   const bRows=r.cfDetailB.map(d=>{
@@ -456,7 +464,7 @@ function buildCFTables(r){
     return `<tr><td>Yr ${d.yr}</td><td class="pos">${fmt(d.rentSaved)}</td><td>${fmt(-d.ops)}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>`+
       (isSell?`<td>${fmt(d.hvYr)}</td><td class="neg">${fmt(-d.rl)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
   }).join('');
-  document.getElementById('cf-b').innerHTML=`<table><thead><tr><th>Yr</th><th>Rent Saved</th><th>Ops</th><th>P&I</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity paid</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${bRows}</tbody></table>`;
+  document.getElementById('cf-b').innerHTML=`<div class="cf-detail-head"><span class="cf-detail-title">B · Farm Buys — Cashflows</span><button class="cf-close" onclick="closeCF('b')">✕</button></div><table><thead><tr><th>Yr</th><th>Rent Saved</th><th>Ops</th><th>P&I</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity paid</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${bRows}</tbody></table>`;
 
   // C: Eric perspective
   const cRows=r.cfDetailC.map(d=>{
@@ -464,7 +472,7 @@ function buildCFTables(r){
     return `<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops-d.get)}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>`+
       (isSell?`<td>${fmt(d.hvYr)}</td><td class="neg">${fmt(-d.rl)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
   }).join('');
-  document.getElementById('cf-c').innerHTML=`<table><thead><tr><th>Yr</th><th>Mkt Rent</th><th>Exp</th><th>P&I</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${cRows}</tbody></table>`;
+  document.getElementById('cf-c').innerHTML=`<div class="cf-detail-head"><span class="cf-detail-title">C · Market Refi — Cashflows</span><button class="cf-close" onclick="closeCF('c')">✕</button></div><table><thead><tr><th>Yr</th><th>Mkt Rent</th><th>Exp</th><th>P&I</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${cRows}</tbody></table>`;
 
   // D: Eric sells now — historical cashflows
   const dRows=r.cfDetailD.map(d=>{
@@ -472,7 +480,7 @@ function buildCFTables(r){
     return `<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops-d.get)}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>`+
       (isSell?`<td>${fmt(r.hv0)}</td><td class="neg">${fmt(-466887)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
   }).join('');
-  document.getElementById('cf-d').innerHTML=`<table><thead><tr><th>Yr</th><th>Rent In</th><th>Exp</th><th>P&I</th><th>Net CF</th><th>Sale Price</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Down payment (5%)</td><td colspan="3" class="neg">${fmt(-r.downPmt)}</td></tr>${dRows}</tbody></table>`;
+  document.getElementById('cf-d').innerHTML=`<div class="cf-detail-head"><span class="cf-detail-title">D · Eric Sells — Cashflows</span><button class="cf-close" onclick="closeCF('d')">✕</button></div><table><thead><tr><th>Yr</th><th>Rent In</th><th>Exp</th><th>P&I</th><th>Net CF</th><th>Sale Price</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Down payment (5%)</td><td colspan="3" class="neg">${fmt(-r.downPmt)}</td></tr>${dRows}</tbody></table>`;
 }
 
 // ── RENDER ────────────────────────────────────────────────────────
