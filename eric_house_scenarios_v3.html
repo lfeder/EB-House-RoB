@@ -124,7 +124,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   <h1>Eric's House</h1>
   <span class="spacer"></span>
   <button class="hdr-btn btn-save" id="btn-save" onclick="saveSliders()">Save</button>
-  <span style="font-size:11px;color:var(--text)">v03-18 21:30</span>
+  <span style="font-size:11px;color:var(--text)">v03-18 21:45</span>
 </header>
 
 <div class="layout" id="layout">
@@ -188,7 +188,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
       <div class="scen-desc">Farm pays Eric equity minus his ownership share as capital contribution. Farm assumes USDA-RD mortgage + ops.</div>
       <div class="scen-metrics">
         <div class="sm"><div class="sm-label">Eric Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
-        <div class="sm"><div class="sm-label">Rent Saved /yr (Yr 1)</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">Rent Saved /mo (Yr 1)</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
         <div class="sm"><div class="sm-label">Farm Equity @ Horizon</div><div class="sm-val" id="b-eq" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">NPV Adv. vs A</div><div class="sm-val" id="b-npv">—</div></div>
@@ -214,7 +214,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   <div class="summ-grid">
     <div class="sg ga"><div class="sg-label">A · Farm NPV Cost</div><div class="sg-val" id="s-anpv" style="color:var(--sa)">—</div></div>
     <div class="sg gb"><div class="sg-label">B · Farm NPV Net Cost</div><div class="sg-val" id="s-bnpv" style="color:var(--sb)">—</div></div>
-    <div class="sg gc"><div class="sg-label">C · Farm NPV Cost</div><div class="sg-val" id="s-cnpv" style="color:var(--sc)">—</div></div>
+    <div class="sg gc"><div class="sg-label">C · Farm NPV Cost</div><div class="sg-val" id="s-cnpv" style="color:var(--sc)">—</div><div class="sg-sub">= A (rents elsewhere)</div></div>
     <div class="sg gx"><div class="sg-label">A · Eric IRR</div><div class="sg-val" id="s-airr" style="color:var(--goldbr)">—</div></div>
   </div>
 
@@ -225,12 +225,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 <script>
 // ── UTILS ──────────────────────────────────────────────────────────
 const fmt = n => (n<0?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString();
-const fmtK = n => {
-  const s=n<0?'-':''; const a=Math.abs(n);
-  if(a>=1e6) return s+'$'+(a/1e6).toFixed(2)+'M';
-  if(a>=1e3) return s+'$'+(a/1e3).toFixed(0)+'K';
-  return s+'$'+a.toFixed(0);
-};
 const fmtPct = n => (n>=0?'+':'')+(n*100).toFixed(1)+'%';
 const g = id => +document.getElementById(id).value;
 
@@ -443,23 +437,23 @@ function render(){
 
   // Scenario A card
   document.getElementById('a-mo').textContent = fmt(r.ra0);
-  document.getElementById('a-pl').textContent = fmtK(r.ericPLA);
+  document.getElementById('a-pl').textContent = fmt(r.ericPLA);
   document.getElementById('a-pl').className = 'sm-val '+(r.ericPLA>=0?'pos':'neg');
-  document.getElementById('a-cf').textContent = fmtK(r.ericCFA);
+  document.getElementById('a-cf').textContent = fmt(r.ericCFA);
   document.getElementById('a-cf').className = 'sm-val '+(r.ericCFA>=0?'pos':'neg');
-  document.getElementById('a-sale').textContent = fmtK(r.saleProceedsA);
+  document.getElementById('a-sale').textContent = fmt(r.saleProceedsA);
   document.getElementById('a-sale').className = 'sm-val pos';
   document.getElementById('a-irr').textContent = fmtPct(r.irrA);
   document.getElementById('a-irr').className = 'sm-val '+(r.irrA>=0?'pos':'neg');
 
   // Scenario B card
-  document.getElementById('b-ericnet').textContent = fmtK(r.ericGets);
-  document.getElementById('b-rentsaved').textContent = fmtK(r.rentSavedYr1);
+  document.getElementById('b-ericnet').textContent = fmt(r.ericGets);
+  document.getElementById('b-rentsaved').textContent = fmt(r.rentSavedYr1/12);
   document.getElementById('b-mo').textContent = fmt(r.piUsda + r.annOps/12);
-  document.getElementById('b-eq').textContent = fmtK(r.finalYr.eqB);
+  document.getElementById('b-eq').textContent = fmt(r.finalYr.eqB);
   document.getElementById('b-eq').className = 'sm-val pos';
   const bNpv = r.pvA - r.pvBNet;
-  document.getElementById('b-npv').textContent = fmtK(bNpv);
+  document.getElementById('b-npv').textContent = fmt(bNpv);
   document.getElementById('b-npv').className = 'sm-val '+(bNpv>=0?'pos':'neg');
   document.getElementById('b-irr').textContent = fmtPct(r.irrB);
   document.getElementById('b-irr').className = 'sm-val '+(r.irrB>=0?'pos':'neg');
@@ -467,19 +461,19 @@ function render(){
 
   // Scenario C card
   document.getElementById('c-mo').textContent = fmt(r.rc0);
-  document.getElementById('c-pl').textContent = fmtK(r.ericPLC);
+  document.getElementById('c-pl').textContent = fmt(r.ericPLC);
   document.getElementById('c-pl').className = 'sm-val '+(r.ericPLC>=0?'pos':'neg');
-  document.getElementById('c-cf').textContent = fmtK(r.ericCFC);
+  document.getElementById('c-cf').textContent = fmt(r.ericCFC);
   document.getElementById('c-cf').className = 'sm-val '+(r.ericCFC>=0?'pos':'neg');
-  document.getElementById('c-sale').textContent = fmtK(r.saleProceedsC);
+  document.getElementById('c-sale').textContent = fmt(r.saleProceedsC);
   document.getElementById('c-sale').className = 'sm-val pos';
   document.getElementById('c-irr').textContent = fmtPct(r.irrC);
   document.getElementById('c-irr').className = 'sm-val '+(r.irrC>=0?'pos':'neg');
 
   // Summary row
-  document.getElementById('s-anpv').textContent = fmtK(r.pvA);
-  document.getElementById('s-bnpv').textContent = fmtK(r.pvBNet);
-  document.getElementById('s-cnpv').textContent = fmtK(r.pvC);
+  document.getElementById('s-anpv').textContent = fmt(r.pvA);
+  document.getElementById('s-bnpv').textContent = fmt(r.pvBNet);
+  document.getElementById('s-cnpv').textContent = fmt(r.pvA); // same as A: farm rents elsewhere at ag rate
   document.getElementById('s-airr').textContent = fmtPct(r.irrA);
 
 }
