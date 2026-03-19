@@ -192,7 +192,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div></div>
         <div class="sm"></div>
-        <div class="sm"><div class="sm-label">Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div></div>
+        <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div></div>
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">IRR (hold → sell)</div><div class="sm-val" id="a-irr">—</div></div>
       </div>
@@ -230,7 +230,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm"><div class="sm-label">Needs other housing</div><div class="sm-val" style="color:var(--muted);font-size:10px">n/a</div></div>
         <div class="sm"><div class="sm-label">CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
         <div class="sm"></div>
-        <div class="sm"><div class="sm-label">Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="c-sale">—</div></div>
+        <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="c-sale">—</div></div>
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">IRR (hold → sell)</div><div class="sm-val" id="c-irr">—</div></div>
       </div>
@@ -437,7 +437,7 @@ function compute(){
   return {
     piUsda, piMkt, eqTotal, ericGets, johnShare, jjbShare, johnOwnPost, jcon, rentSavedYr1,
     ericPLA, ericCFA, ericPLC, ericCFC,
-    saleProceedsA, saleProceedsC, irrA, irrB, irrC,
+    hvSell, saleProceedsA, saleProceedsC, irrA, irrB, irrC,
     cfDetailA, cfDetailB, cfDetailC,
     sellYr,
     ra0, rc0, annOps, hv0,
@@ -498,7 +498,7 @@ function render(){
   document.getElementById('a-pl').className = 'sm-val '+(r.ericPLA>=0?'pos':'neg');
   document.getElementById('a-cf').textContent = fmt(r.ericCFA);
   document.getElementById('a-cf').className = 'sm-val '+(r.ericCFA>=0?'pos':'neg');
-  document.getElementById('a-sale').textContent = fmt(r.saleProceedsA);
+  document.getElementById('a-sale').textContent = fmt(r.hvSell);
   document.getElementById('a-sale').className = 'sm-val pos';
   document.getElementById('a-irr').textContent = fmtPct(r.irrA);
   document.getElementById('a-irr').className = 'sm-val '+(r.irrA>=0?'pos':'neg');
@@ -518,7 +518,7 @@ function render(){
   document.getElementById('c-pl').className = 'sm-val '+(r.ericPLC>=0?'pos':'neg');
   document.getElementById('c-cf').textContent = fmt(r.ericCFC);
   document.getElementById('c-cf').className = 'sm-val '+(r.ericCFC>=0?'pos':'neg');
-  document.getElementById('c-sale').textContent = fmt(r.saleProceedsC);
+  document.getElementById('c-sale').textContent = fmt(r.hvSell);
   document.getElementById('c-sale').className = 'sm-val pos';
   document.getElementById('c-irr').textContent = fmtPct(r.irrC);
   document.getElementById('c-irr').className = 'sm-val '+(r.irrC>=0?'pos':'neg');
