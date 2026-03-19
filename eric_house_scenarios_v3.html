@@ -366,7 +366,7 @@ function compute(){
     const cfA = rentA - opsYr - piA - getA;
     const saleA = yr===sellYr ? hvYr-rlA : 0;
     irrCfsA.push(cfA+saleA);
-    cfDetailA.push({yr, rent:rentA, ops:opsYr, pi:piA, get:getA, cf:cfA, sale:saleA, total:cfA+saleA});
+    cfDetailA.push({yr, rent:rentA, ops:opsYr, pi:piA, get:getA, cf:cfA, sale:saleA, total:cfA+saleA, hvYr, rl:rlA});
 
     // B: Farm perspective
     const rentSaved = ra0*12*Math.pow(1+ragr,yr-1);
@@ -374,7 +374,7 @@ function compute(){
     const cfB = rentSaved - (piB + opsYr);
     const saleB = yr===sellYr ? hvYr-rlA : 0;
     irrCfsB.push(cfB+saleB);
-    cfDetailB.push({yr, rentSaved, ops:opsYr, pi:piB, cf:cfB, sale:saleB, total:cfB+saleB, equity:hvYr-rlA});
+    cfDetailB.push({yr, rentSaved, ops:opsYr, pi:piB, cf:cfB, sale:saleB, total:cfB+saleB, hvYr, rl:rlA});
 
     // C: Eric perspective
     const rentC = rc0*12*Math.pow(1+rcgr,yr-1);
@@ -383,7 +383,7 @@ function compute(){
     const cfC = rentC - opsYr - piC - getC;
     const saleC = yr===sellYr ? hvYr-rlC : 0;
     irrCfsC.push(cfC+saleC);
-    cfDetailC.push({yr, rent:rentC, ops:opsYr, pi:piC, get:getC, cf:cfC, sale:saleC, total:cfC+saleC});
+    cfDetailC.push({yr, rent:rentC, ops:opsYr, pi:piC, get:getC, cf:cfC, sale:saleC, total:cfC+saleC, hvYr, rl:rlC});
   }
 
   const irrA = calcIRR(irrCfsA);
@@ -456,16 +456,28 @@ function toggleCF(id){
 
 function buildCFTables(r){
   // A: Eric perspective
-  const aRows=r.cfDetailA.map(d=>`<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops)}</td><td>${fmt(-d.pi)}</td><td>${fmt(-d.get)}</td><td>${fmt(d.cf)}</td>${d.sale?`<td class="pos">${fmt(d.sale)}</td>`:'<td></td>'}</tr>`).join('');
-  document.getElementById('cf-a').innerHTML=`<table><thead><tr><th>Yr</th><th>Rent In</th><th>Ops</th><th>P&I</th><th>GET</th><th>Net CF</th><th>Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="5">Equity (opp. cost)</td><td class="neg">${fmt(-r.eqTotal)}</td></tr>${aRows}</tbody></table>`;
+  const aRows=r.cfDetailA.map(d=>{
+    const isSell=d.yr===r.sellYr;
+    return `<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops)}</td><td>${fmt(-d.pi)}</td><td>${fmt(-d.get)}</td><td>${fmt(d.cf)}</td>`+
+      (isSell?`<td>${fmt(d.hvYr)}</td><td class="neg">${fmt(-d.rl)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
+  }).join('');
+  document.getElementById('cf-a').innerHTML=`<table><thead><tr><th>Yr</th><th>Rent In</th><th>Ops</th><th>P&I</th><th>GET</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="5">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${aRows}</tbody></table>`;
 
   // B: Farm perspective
-  const bRows=r.cfDetailB.map(d=>`<tr><td>Yr ${d.yr}</td><td class="pos">${fmt(d.rentSaved)}</td><td>${fmt(-d.ops)}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>${d.sale?`<td class="pos">${fmt(d.sale)}</td>`:'<td></td>'}</tr>`).join('');
-  document.getElementById('cf-b').innerHTML=`<table><thead><tr><th>Yr</th><th>Rent Saved</th><th>Ops</th><th>P&I</th><th>Net CF</th><th>Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity paid</td><td>${fmt(-r.eqTotal)}</td></tr>${bRows}</tbody></table>`;
+  const bRows=r.cfDetailB.map(d=>{
+    const isSell=d.yr===r.sellYr;
+    return `<tr><td>Yr ${d.yr}</td><td class="pos">${fmt(d.rentSaved)}</td><td>${fmt(-d.ops)}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>`+
+      (isSell?`<td>${fmt(d.hvYr)}</td><td class="neg">${fmt(-d.rl)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
+  }).join('');
+  document.getElementById('cf-b').innerHTML=`<table><thead><tr><th>Yr</th><th>Rent Saved</th><th>Ops</th><th>P&I</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity paid</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${bRows}</tbody></table>`;
 
   // C: Eric perspective
-  const cRows=r.cfDetailC.map(d=>`<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops)}</td><td>${fmt(-d.pi)}</td><td>${fmt(-d.get)}</td><td>${fmt(d.cf)}</td>${d.sale?`<td class="pos">${fmt(d.sale)}</td>`:'<td></td>'}</tr>`).join('');
-  document.getElementById('cf-c').innerHTML=`<table><thead><tr><th>Yr</th><th>Mkt Rent</th><th>Ops</th><th>P&I</th><th>GET</th><th>Net CF</th><th>Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="5">Equity (opp. cost)</td><td>${fmt(-(r.hv0-466887))}</td></tr>${cRows}</tbody></table>`;
+  const cRows=r.cfDetailC.map(d=>{
+    const isSell=d.yr===r.sellYr;
+    return `<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops)}</td><td>${fmt(-d.pi)}</td><td>${fmt(-d.get)}</td><td>${fmt(d.cf)}</td>`+
+      (isSell?`<td>${fmt(d.hvYr)}</td><td class="neg">${fmt(-d.rl)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
+  }).join('');
+  document.getElementById('cf-c').innerHTML=`<table><thead><tr><th>Yr</th><th>Mkt Rent</th><th>Ops</th><th>P&I</th><th>GET</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="5">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${cRows}</tbody></table>`;
 }
 
 // ── RENDER ────────────────────────────────────────────────────────
