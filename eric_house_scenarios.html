@@ -141,18 +141,15 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 
   <div class="sh">Property</div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Home Value (est.)</span><span class="sr-val" id="v-hv">$900,000</span></div><input type="range" id="hv" min="200000" max="1500000" step="10000" value="900000"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Annual Appreciation</span><span class="sr-val" id="v-appr">2.00%</span></div><input type="range" id="appr" min="0" max="10" step="0.25" value="2"></div>
 
   <div class="sh">Operating Costs</div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Property Tax /yr</span><span class="sr-val" id="v-ptax">$6,000</span></div><input type="range" id="ptax" min="1000" max="25000" step="250" value="6000"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Insurance /yr</span><span class="sr-val" id="v-ins">$1,525</span></div><input type="range" id="ins" min="500" max="10000" step="250" value="1525"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Utilities /yr</span><span class="sr-val" id="v-utils">$5,049</span></div><input type="range" id="utils" min="0" max="15000" step="250" value="5049"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Maintenance /yr</span><span class="sr-val" id="v-maint">$6,000</span></div><input type="range" id="maint" min="0" max="15000" step="250" value="6000"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Annual Inflation</span><span class="sr-val" id="v-infl">3.00%</span></div><input type="range" id="infl" min="0" max="8" step="0.25" value="3"></div>
 
   <div class="sh">A — Status Quo</div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Ag Rent /mo</span><span class="sr-val" id="v-ra">$3,500</span></div><input type="range" class="sa" id="ra" min="2000" max="6000" step="100" value="3500"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-ragr">3.00%</span></div><input type="range" class="sa" id="ragr" min="0" max="8" step="0.25" value="3"></div>
 
   <div class="sh">B — Farm Buys</div>
   <div class="sr"><div class="sr-top"><span class="sr-label">John Contributes?</span><span class="sr-val" id="v-jcon">Yes</span></div><input type="range" class="sb" id="jcon" min="0" max="1" step="1" value="1"></div>
@@ -163,9 +160,9 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   <div class="sr"><div class="sr-top"><span class="sr-label">New Market Rate</span><span class="sr-val" id="v-mktrate">7.00%</span></div><input type="range" class="sc" id="mktrate" min="4" max="12" step="0.25" value="7"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">New Term (refi)</span><span class="sr-val" id="v-refterm">30 yrs</span></div><input type="range" class="sc" id="refterm" min="10" max="30" step="5" value="30"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Market Rent /mo</span><span class="sr-val" id="v-rc">$4,500</span></div><input type="range" class="sc" id="rc" min="2500" max="8000" step="100" value="4500"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-rcgr">3.00%</span></div><input type="range" class="sc" id="rcgr" min="0" max="8" step="0.25" value="3"></div>
 
   <div class="sh">Analysis</div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Annual Inflation</span><span class="sr-val" id="v-infl">3.00%</span></div><input type="range" id="infl" min="0" max="8" step="0.25" value="3"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Sell Year</span><span class="sr-val" id="v-sell">10 yrs</span></div><input type="range" id="sell" min="1" max="30" step="1" value="10"></div>
 
   <div class="sh">USDA-RD Loan <span class="tag tag-act">fixed</span></div>
@@ -296,7 +293,6 @@ function toggleSidebar(){
 // ── COMPUTE ───────────────────────────────────────────────────────
 function compute(){
   const hv0     = g('hv');
-  const appr    = g('appr')/100;
   const bal     = 466887;
   const usdar   = 0.01;
   const term    = 26;
@@ -305,15 +301,16 @@ function compute(){
   const utils   = g('utils');
   const maint   = g('maint');
   const infl    = g('infl')/100;
+  const appr    = infl; // appreciation = inflation
   const getR    = 0.045;
   const ra0     = g('ra');
-  const ragr    = g('ragr')/100;
+  const ragr    = infl; // rent growth = inflation
   const jcon    = g('jcon'); // 1 = yes, 0 = no
   const fval    = g('fval');
   const mktrate = g('mktrate')/100;
   const refterm = g('refterm');
   const rc0     = g('rc');
-  const rcgr    = g('rcgr')/100;
+  const rcgr    = infl; // rent growth = inflation
   const sellYr  = g('sell');
 
   const piUsda = moPmt(bal, usdar, term);
@@ -539,15 +536,15 @@ function render(){
 
 // ── SLIDER LABELS ─────────────────────────────────────────────────
 const fmtrs={
-  hv:v=>'$'+Number(v).toLocaleString(), appr:v=>Number(v).toFixed(2)+'%',
+  hv:v=>'$'+Number(v).toLocaleString(),
   ptax:v=>'$'+Number(v).toLocaleString(),
   ins:v=>'$'+Number(v).toLocaleString(), utils:v=>'$'+Number(v).toLocaleString(),
   maint:v=>'$'+Number(v).toLocaleString(), infl:v=>Number(v).toFixed(2)+'%',
-  ra:v=>'$'+Number(v).toLocaleString(), ragr:v=>Number(v).toFixed(2)+'%',
+  ra:v=>'$'+Number(v).toLocaleString(),
   jcon:v=>+v?'Yes':'No',
   fval:v=>'$'+(Number(v)/1e6).toFixed(1)+'M',
   mktrate:v=>Number(v).toFixed(2)+'%', refterm:v=>v+' yrs',
-  rc:v=>'$'+Number(v).toLocaleString(), rcgr:v=>Number(v).toFixed(2)+'%',
+  rc:v=>'$'+Number(v).toLocaleString(),
   sell:v=>v+' yrs',
 };
 document.querySelectorAll('input[type=range]').forEach(el=>{
