@@ -392,9 +392,9 @@ function compute(){
     cfDetailC.push({yr, rent:rentC, ops:opsYr, pi:piC, get:getC, cf:cfC, sale:saleC, total:cfC+saleC, hvYr, rl:rlC});
   }
 
-  const cumCfA = cfDetailA.reduce((s,d)=>s+d.cf,0);
-  const cumCfB = cfDetailB.reduce((s,d)=>s+d.cf,0);
-  const cumCfC = cfDetailC.reduce((s,d)=>s+d.cf,0);
+  const cumCfA = cfDetailA.reduce((s,d)=>s+d.total,0);
+  const cumCfB = cfDetailB.reduce((s,d)=>s+d.total,0);
+  const cumCfC = cfDetailC.reduce((s,d)=>s+d.total,0);
 
   const irrA = calcIRR(irrCfsA);
   const irrB = calcIRR(irrCfsB);
