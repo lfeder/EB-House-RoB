@@ -101,15 +101,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 .card-c .scen-title{color:var(--sc)}
 .pos{color:var(--green)} .neg{color:var(--red)} .gld{color:var(--goldbr)}
 
-/* ── CHART ── */
-.chart-wrap{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;padding:12px 14px}
-.chart-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.chart-title{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--dim);font-weight:600}
-.legend{display:flex;gap:14px;margin-left:auto;flex-wrap:wrap}
-.leg{display:flex;align-items:center;gap:5px;font-size:9px;color:var(--dim)}
-.leg-line{width:16px;height:2.5px;border-radius:2px}
-canvas{display:block;width:100%}
-
 /* ── COMPARISON TABLE ── */
 .tbl-wrap{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;overflow:hidden}
 .tbl-head{padding:7px 12px;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.13em;color:var(--muted);background:var(--surf2);border-bottom:1px solid var(--bdr)}
@@ -144,6 +135,7 @@ tr:hover td{background:rgba(255,255,255,0.015)}
 </head>
 <body>
 <header>
+  <span style="font-size:11px;color:var(--text)">v03-18 20:45</span>
   <h1>Eric's House</h1>
   <span class="spacer"></span>
   <button class="hdr-btn btn-save" id="btn-save" onclick="saveSliders()">Save</button>
@@ -191,13 +183,12 @@ tr:hover td{background:rgba(255,255,255,0.015)}
 <main class="main">
 
   <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">◀</button>
-  <div style="font-size:11px;color:var(--text);margin-bottom:2px;padding-left:32px">v03-18 20:30</div>
 
   <!-- Scenario cards -->
   <div class="scen-row">
     <!-- A -->
     <div class="scen-card card-a">
-      <div class="scen-head"><div class="letter">A</div><div><div class="scen-title">Below-Market Rent</div></div></div>
+      <div class="scen-head"><div class="letter">A</div><div><div class="scen-title">Ag Rent</div></div></div>
       <div class="scen-desc">Farm pays Eric below-market rent. Eric keeps house, mortgage, appreciation. Farm builds zero equity.</div>
       <div class="scen-metrics">
         <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div></div>
@@ -210,7 +201,7 @@ tr:hover td{background:rgba(255,255,255,0.015)}
     </div>
     <!-- B -->
     <div class="scen-card card-b">
-      <div class="scen-head"><div class="letter">B</div><div><div class="scen-title">Off-Balance-Sheet Buy</div></div></div>
+      <div class="scen-head"><div class="letter">B</div><div><div class="scen-title">Farm Buys (off BS)</div></div></div>
       <div class="scen-desc">Farm pays Eric 75% of equity (his 25% is his capital contribution). Eric: 25%, John: 35%, JJB: 40%.</div>
       <div class="scen-metrics">
         <div class="sm"><div class="sm-label">Eric Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
@@ -219,8 +210,9 @@ tr:hover td{background:rgba(255,255,255,0.015)}
         <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
         <div class="sm"><div class="sm-label">Farm Equity @ Horizon</div><div class="sm-val" id="b-eq" class="pos">—</div></div>
         <div class="sm"><div class="sm-label">NPV Adv. vs A</div><div class="sm-val" id="b-npv">—</div></div>
+        <div class="sm"><div class="sm-label">Farm IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div></div>
         <div class="sm"><div class="sm-label">John Own. (post)</div><div class="sm-val" id="b-jown">—</div></div>
-        <div class="sm"><div class="sm-label">B Break-Even vs A</div><div class="sm-val" id="b-be" style="color:var(--goldbr)">—</div></div>
+        <div class="sm"><div class="sm-label">Break-Even vs A</div><div class="sm-val" id="b-be" style="color:var(--goldbr)">—</div></div>
       </div>
     </div>
     <!-- C -->
@@ -244,20 +236,6 @@ tr:hover td{background:rgba(255,255,255,0.015)}
     <div class="sg gb"><div class="sg-label">B · Farm NPV Net Cost</div><div class="sg-val" id="s-bnpv" style="color:var(--sb)">—</div></div>
     <div class="sg gc"><div class="sg-label">C · Farm NPV Cost</div><div class="sg-val" id="s-cnpv" style="color:var(--sc)">—</div></div>
     <div class="sg gx"><div class="sg-label">A · Eric IRR</div><div class="sg-val" id="s-airr" style="color:var(--goldbr)">—</div></div>
-  </div>
-
-  <!-- Chart -->
-  <div class="chart-wrap">
-    <div class="chart-header">
-      <div class="chart-title">Farm Cumulative Cash Out &amp; Net Position</div>
-      <div class="legend">
-        <div class="leg"><div class="leg-line" style="background:var(--sa)"></div>A: Cum. Rent</div>
-        <div class="leg"><div class="leg-line" style="background:var(--sb)"></div>B: Cum. Cost</div>
-        <div class="leg"><div class="leg-line" style="background:var(--green);opacity:.7"></div>B: Net</div>
-        <div class="leg"><div class="leg-line" style="background:var(--sc)"></div>C: Cum. Rent</div>
-      </div>
-    </div>
-    <canvas id="chart" height="200"></canvas>
   </div>
 
   <!-- Year table -->
@@ -329,7 +307,6 @@ function calcIRR(cfs, guess){
 // ── SIDEBAR TOGGLE ────────────────────────────────────────────────
 function toggleSidebar(){
   document.getElementById('layout').classList.toggle('collapsed');
-  setTimeout(()=>{const r=compute();drawChart(r.years);},300);
 }
 
 // ── COMPUTE ───────────────────────────────────────────────────────
@@ -417,6 +394,23 @@ function compute(){
   }
   const irrC = calcIRR(irrCfsC);
 
+  // ── Farm IRR for B (buy + sell at sellYr) ──
+  // t0 = -ericGets (equity payment)
+  // t1..sellYr = -(P&I + ops) per year
+  // t_sellYr += home value - remaining balance (sale proceeds)
+  const irrCfsB = [-ericGets];
+  for(let yr=1;yr<=sellYr;yr++){
+    const piYrB = (yr*12 <= term*12) ? piUsda*12 : 0;
+    let cf = -(piYrB + annOps);
+    if(yr===sellYr){
+      const hvS = hv0*Math.pow(1+appr,yr);
+      const rlS = remBal(bal, usdar, term, yr*12);
+      cf += hvS - rlS;
+    }
+    irrCfsB.push(cf);
+  }
+  const irrB = calcIRR(irrCfsB);
+
   // ── Year arrays (farm perspective) ──
   const years=[];
   let cumA=0, cumB=0, cumC=0;
@@ -464,73 +458,12 @@ function compute(){
   return {
     piUsda, piMkt, eqTotal, ericGets, johnShare, jjbShare, johnOwnPost, jcon,
     ericPLA, ericCFA, ericPLC, ericCFC,
-    saleProceedsA, saleProceedsC, irrA, irrC,
+    saleProceedsA, saleProceedsC, irrA, irrB, irrC,
     sellYr,
     ra0, rc0, annOps, hv0,
     years, beYear, pvA, pvBNet, pvC,
     finalYr
   };
-}
-
-// ── DRAW CHART ─────────────────────────────────────────────────────
-function drawChart(years){
-  const canvas=document.getElementById('chart');
-  const dpr=window.devicePixelRatio||1;
-  const W=canvas.parentElement.clientWidth-28;
-  const H=200;
-  canvas.width=W*dpr; canvas.height=H*dpr;
-  canvas.style.width=W+'px'; canvas.style.height=H+'px';
-  const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
-
-  const pad={t:10,r:14,b:28,l:62};
-  const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
-
-  const allV=years.flatMap(d=>[d.cumA,d.cumB,d.cumC,d.bNet]);
-  const minV=Math.min(0,...allV), maxV=Math.max(...allV)*1.04;
-  const rng=maxV-minV;
-  const xS=i=>pad.l+(i/(years.length-1))*cw;
-  const yS=v=>pad.t+ch-((v-minV)/rng)*ch;
-
-  for(let i=0;i<=4;i++){
-    const v=minV+rng*i/4;
-    const y=yS(v);
-    ctx.strokeStyle='#233823'; ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(pad.l+cw,y); ctx.stroke();
-    ctx.fillStyle='#8ab87a';
-    ctx.font='10px Outfit'; ctx.textAlign='right';
-    ctx.fillText(fmtK(v), pad.l-5, y+3.5);
-  }
-
-  const y0=yS(0);
-  ctx.strokeStyle='#3a5a3a'; ctx.lineWidth=1; ctx.setLineDash([3,4]);
-  ctx.beginPath(); ctx.moveTo(pad.l,y0); ctx.lineTo(pad.l+cw,y0); ctx.stroke();
-  ctx.setLineDash([]);
-
-  const step=Math.ceil(years.length/7);
-  ctx.fillStyle='#8ab87a';
-  ctx.font='10px Outfit'; ctx.textAlign='center';
-  years.forEach((d,i)=>{
-    if(i%step===0||i===years.length-1)
-      ctx.fillText('Yr '+d.yr, xS(i), H-pad.b+14);
-  });
-
-  function line(data,color,dash=false,lw=2){
-    ctx.beginPath(); ctx.strokeStyle=color; ctx.lineWidth=lw;
-    ctx.setLineDash(dash?[4,4]:[]);
-    data.forEach((v,i)=>{const x=xS(i),y=yS(v);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y)});
-    ctx.stroke(); ctx.setLineDash([]);
-    const lv=data[data.length-1];
-    ctx.beginPath(); ctx.arc(xS(data.length-1),yS(lv),3.5,0,Math.PI*2);
-    ctx.fillStyle=color; ctx.fill();
-    ctx.fillStyle=color;
-    ctx.font='bold 9px Space Mono'; ctx.textAlign='left';
-    ctx.fillText(fmtK(lv), xS(data.length-1)+6, yS(lv)+3);
-  }
-
-  line(years.map(d=>d.cumA),  '#78aadd');
-  line(years.map(d=>d.cumC),  '#e06868');
-  line(years.map(d=>d.cumB),  '#d4a044', false, 1.5);
-  line(years.map(d=>d.bNet),  '#58cc7e', true, 2);
 }
 
 // ── BUILD TABLE ────────────────────────────────────────────────────
@@ -584,6 +517,8 @@ function render(){
   const bNpv = r.pvA - r.pvBNet;
   document.getElementById('b-npv').textContent = fmtK(bNpv);
   document.getElementById('b-npv').className = 'sm-val '+(bNpv>=0?'pos':'neg');
+  document.getElementById('b-irr').textContent = fmtPct(r.irrB);
+  document.getElementById('b-irr').className = 'sm-val '+(r.irrB>=0?'pos':'neg');
   document.getElementById('b-jown').textContent = (r.johnOwnPost*100).toFixed(1)+'%';
   document.getElementById('b-jown').className = 'sm-val '+(r.jcon?'pos':'neg');
   document.getElementById('b-be').textContent = r.beYear ? 'Year '+r.beYear : 'None';
@@ -606,7 +541,6 @@ function render(){
   document.getElementById('s-cnpv').textContent = fmtK(r.pvC);
   document.getElementById('s-airr').textContent = fmtPct(r.irrA);
 
-  drawChart(r.years);
   buildTable(r.years, r.beYear);
 }
 
@@ -657,7 +591,7 @@ function loadSliders(){
 
 loadSliders();
 render();
-window.addEventListener('resize',()=>{const r=compute();drawChart(r.years);});
+window.addEventListener('resize',render);
 </script>
 </body>
 </html>
