@@ -192,7 +192,8 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm"><div class="sm-label">Eric: CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div></div>
         <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div></div>
         <div class="sm"><div class="sm-label">Net CF (<span class="sell-yr">10</span> yrs)</div><div class="sm-val" id="a-cumcf">—</div></div>
-        <div class="sm"><div class="sm-label">Eric: IRR (hold → sell)</div><div class="sm-val" id="a-irr">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: IRR (inception → <span class="sell-yr">10</span>y)</div><div class="sm-val" id="a-irr-inc">—</div></div>
+        <div class="sm"><div class="sm-label">Eric: IRR (now → <span class="sell-yr">10</span>y)</div><div class="sm-val" id="a-irr">—</div></div>
       </div>
       <button class="cf-toggle" onclick="toggleCF('a')">▸ Cashflows</button>
     </div>
@@ -399,15 +400,37 @@ function compute(){
   const irrB = calcIRR(irrCfsB);
   const irrC = calcIRR(irrCfsC);
 
+  // ── A: Inception IRR (from purchase 7 yrs ago through sellYr from now) ──
+  const origMtg = 570000;
+  const origPrice = origMtg / 0.95;  // $600K
+  const downPmt = origPrice - origMtg; // $30K
+  const dPmtYrs = 7;
+  const irrCfsAInc = [-downPmt];
+  for(let yr=1;yr<=dPmtYrs;yr++){
+    const rentD = yr<=5 ? 2400*12 : ra0*12;
+    const opsD = annOps * Math.pow(1.03, yr - dPmtYrs);
+    const getD = rentD * getR;
+    const piD = piUsda*12;
+    irrCfsAInc.push(rentD - opsD - piD - getD);
+  }
+  for(let yr=1;yr<=sellYr;yr++){
+    const opsYr = annOps*Math.pow(1+infl,yr-1);
+    const hvYr = hv0*Math.pow(1+appr,yr);
+    const rlA = remBal(bal, usdar, term, yr*12);
+    const rentA = ra0*12*Math.pow(1+ragr,yr-1);
+    const piA = (yr*12<=term*12)?piUsda*12:0;
+    const getAy = rentA*getR;
+    const cfA = rentA - opsYr - piA - getAy;
+    const saleA = yr===sellYr ? hvYr-rlA : 0;
+    irrCfsAInc.push(cfA+saleA);
+  }
+  const irrAInc = calcIRR(irrCfsAInc);
+
   // ── Scenario D: Eric sells now ──
   // Original: $570K mortgage on ~$600K home (95% LTV), ~7 yrs ago
   // Rent: $2,400/mo yrs 1-5, then current ag rent yr 6-7
   // Expenses: current annOps deflated 3%/yr backwards
-  const origMtg = 570000;
-  const origPrice = origMtg / 0.95;  // $600K
-  const downPmt = origPrice - origMtg; // $30K
   const dNetProceeds = hv0 - bal;
-  const dPmtYrs = 7;
   const irrCfsD = [-downPmt];
   const cfDetailD = [];
   let dCumCf = 0;
@@ -428,7 +451,7 @@ function compute(){
   return {
     piUsda, piMkt, eqTotal, ericGets, johnShare, jjbShare, johnOwnPost, jcon, rentSavedYr1,
     ericPLA, ericCFA, ericPLC, ericCFC,
-    hvSell, saleProceedsA, saleProceedsC, cumCfA, cumCfB, cumCfC, irrA, irrB, irrC,
+    hvSell, saleProceedsA, saleProceedsC, cumCfA, cumCfB, cumCfC, irrA, irrAInc, irrB, irrC,
     cfDetailA, cfDetailB, cfDetailC,
     dNetProceeds, dNetCf, irrD, cfDetailD, downPmt, dPmtYrs,
     sellYr,
@@ -504,6 +527,8 @@ function render(){
   document.getElementById('a-sale').className = 'sm-val pos';
   document.getElementById('a-cumcf').textContent = fmt(r.cumCfA);
   document.getElementById('a-cumcf').className = 'sm-val '+(r.cumCfA>=0?'pos':'neg');
+  document.getElementById('a-irr-inc').textContent = fmtPct(r.irrAInc);
+  document.getElementById('a-irr-inc').className = 'sm-val '+(r.irrAInc>=0?'pos':'neg');
   document.getElementById('a-irr').textContent = fmtPct(r.irrA);
   document.getElementById('a-irr').className = 'sm-val '+(r.irrA>=0?'pos':'neg');
 
