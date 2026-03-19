@@ -210,7 +210,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm"><div class="sm-label">Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
         <div class="sm"><div class="sm-label">Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
         <div class="sm"></div>
-        <div class="sm"><div class="sm-label">Equity @ Horizon</div><div class="sm-val" id="b-eq" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">Value @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="b-val" class="pos">—</div></div>
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div></div>
         <div class="sm"></div>
@@ -458,10 +458,10 @@ function buildCFTables(r){
   // A: Eric perspective
   const aRows=r.cfDetailA.map(d=>{
     const isSell=d.yr===r.sellYr;
-    return `<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops)}</td><td>${fmt(-d.pi)}</td><td>${fmt(-d.get)}</td><td>${fmt(d.cf)}</td>`+
+    return `<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops-d.get)}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>`+
       (isSell?`<td>${fmt(d.hvYr)}</td><td class="neg">${fmt(-d.rl)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
   }).join('');
-  document.getElementById('cf-a').innerHTML=`<table><thead><tr><th>Yr</th><th>Rent In</th><th>Ops</th><th>P&I</th><th>GET</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="5">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${aRows}</tbody></table>`;
+  document.getElementById('cf-a').innerHTML=`<table><thead><tr><th>Yr</th><th>Rent In</th><th>Exp</th><th>P&I</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${aRows}</tbody></table>`;
 
   // B: Farm perspective
   const bRows=r.cfDetailB.map(d=>{
@@ -474,10 +474,10 @@ function buildCFTables(r){
   // C: Eric perspective
   const cRows=r.cfDetailC.map(d=>{
     const isSell=d.yr===r.sellYr;
-    return `<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops)}</td><td>${fmt(-d.pi)}</td><td>${fmt(-d.get)}</td><td>${fmt(d.cf)}</td>`+
+    return `<tr><td>Yr ${d.yr}</td><td>${fmt(d.rent)}</td><td>${fmt(-d.ops-d.get)}</td><td>${fmt(-d.pi)}</td><td>${fmt(d.cf)}</td>`+
       (isSell?`<td>${fmt(d.hvYr)}</td><td class="neg">${fmt(-d.rl)}</td><td class="pos">${fmt(d.sale)}</td>`:`<td></td><td></td><td></td>`)+`</tr>`;
   }).join('');
-  document.getElementById('cf-c').innerHTML=`<table><thead><tr><th>Yr</th><th>Mkt Rent</th><th>Ops</th><th>P&I</th><th>GET</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="5">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${cRows}</tbody></table>`;
+  document.getElementById('cf-c').innerHTML=`<table><thead><tr><th>Yr</th><th>Mkt Rent</th><th>Exp</th><th>P&I</th><th>Net CF</th><th>Home Val</th><th>Payoff</th><th>Net Sale</th></tr></thead><tbody><tr class="cf-total"><td>Yr 0</td><td colspan="4">Equity (opp. cost)</td><td colspan="3" class="neg">${fmt(-r.eqTotal)}</td></tr>${cRows}</tbody></table>`;
 }
 
 // ── RENDER ────────────────────────────────────────────────────────
@@ -507,8 +507,8 @@ function render(){
   document.getElementById('b-ericnet').textContent = fmt(r.ericGets);
   document.getElementById('b-rentsaved').textContent = fmt(r.rentSavedYr1/12);
   document.getElementById('b-mo').textContent = fmt(r.piUsda + r.annOps/12);
-  document.getElementById('b-eq').textContent = fmt(r.finalYr.eqB);
-  document.getElementById('b-eq').className = 'sm-val pos';
+  document.getElementById('b-val').textContent = fmt(r.hvSell);
+  document.getElementById('b-val').className = 'sm-val pos';
   document.getElementById('b-irr').textContent = fmtPct(r.irrB);
   document.getElementById('b-irr').className = 'sm-val '+(r.irrB>=0?'pos':'neg');
 
