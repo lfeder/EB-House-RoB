@@ -88,6 +88,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
 .sm-val{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;line-height:1}
 .sm-sub{font-size:8.5px;color:var(--muted);margin-top:2px}
 .sm.full{grid-column:1/-1}
+.col-hdr{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.13em;color:var(--muted);padding:5px 10px 2px;text-align:center}
 
 /* card color themes */
 .card-a .scen-head{background:rgba(120,170,221,0.08);border-bottom:1px solid rgba(120,170,221,0.2)}
@@ -124,7 +125,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   <h1>Eric's House</h1>
   <span class="spacer"></span>
   <button class="hdr-btn btn-save" id="btn-save" onclick="saveSliders()">Save</button>
-  <span style="font-size:11px;color:var(--text)">v03-18 21:45</span>
+  <span style="font-size:11px;color:var(--text)">v03-18 22:00</span>
 </header>
 
 <div class="layout" id="layout">
@@ -141,7 +142,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   <div class="sr"><div class="sr-top"><span class="sr-label">Maintenance /yr</span><span class="sr-val" id="v-maint">$6,000</span></div><input type="range" id="maint" min="0" max="15000" step="250" value="6000"></div>
 
   <div class="sh">A — Status Quo <span class="tag tag-sa">rent</span></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Monthly Rent</span><span class="sr-val" id="v-ra">$3,500</span></div><input type="range" class="sa" id="ra" min="2000" max="6000" step="100" value="3500"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Ag Rent /mo</span><span class="sr-val" id="v-ra">$3,500</span></div><input type="range" class="sa" id="ra" min="2000" max="6000" step="100" value="3500"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-ragr">3.00%</span></div><input type="range" class="sa" id="ragr" min="0" max="8" step="0.25" value="3"></div>
 
   <div class="sh">B — Farm Buys <span class="tag tag-sb">buy</span></div>
@@ -152,7 +153,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   <div class="sh">C — Refi, Mkt Rent <span class="tag tag-sc">refi</span></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">New Market Rate</span><span class="sr-val" id="v-mktrate">7.00%</span></div><input type="range" class="sc" id="mktrate" min="4" max="12" step="0.25" value="7"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">New Term (refi)</span><span class="sr-val" id="v-refterm">30 yrs</span></div><input type="range" class="sc" id="refterm" min="10" max="30" step="5" value="30"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Market Monthly Rent</span><span class="sr-val" id="v-rc">$4,500</span></div><input type="range" class="sc" id="rc" min="2500" max="8000" step="100" value="4500"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Market Rent /mo</span><span class="sr-val" id="v-rc">$4,500</span></div><input type="range" class="sc" id="rc" min="2500" max="8000" step="100" value="4500"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-rcgr">3.00%</span></div><input type="range" class="sc" id="rcgr" min="0" max="8" step="0.25" value="3"></div>
 
   <div class="sh">Analysis</div>
@@ -175,11 +176,16 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
       <div class="scen-head"><div class="letter">A</div><div><div class="scen-title">Ag Rent</div></div></div>
       <div class="scen-desc">Farm pays Eric below-market rent. Eric keeps house, mortgage, appreciation. Farm builds zero equity.</div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Ag Rent /mo (Yr 1)</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div></div>
-        <div class="sm"><div class="sm-label">Eric P&L /yr (Yr 1)</div><div class="sm-val" id="a-pl">—</div></div>
-        <div class="sm"><div class="sm-label">Eric CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div></div>
-        <div class="sm"><div class="sm-label">Eric Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div></div>
-        <div class="sm"><div class="sm-label">Eric IRR (hold → sell)</div><div class="sm-val" id="a-irr">—</div></div>
+        <div class="sm col-hdr">Farm</div>
+        <div class="sm col-hdr">Eric</div>
+        <div class="sm"><div class="sm-label">Ag Rent /mo</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div></div>
+        <div class="sm"><div class="sm-label">P&L /yr (Yr 1)</div><div class="sm-val" id="a-pl">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">IRR (hold → sell)</div><div class="sm-val" id="a-irr">—</div></div>
       </div>
     </div>
     <!-- B -->
@@ -187,25 +193,37 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
       <div class="scen-head"><div class="letter">B</div><div><div class="scen-title">Farm Buys (off BS)</div></div></div>
       <div class="scen-desc">Farm pays Eric equity minus his ownership share as capital contribution. Farm assumes USDA-RD mortgage + ops.</div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Eric Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
-        <div class="sm"><div class="sm-label">Rent Saved /mo (Yr 1)</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
-        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
-        <div class="sm"><div class="sm-label">Farm Equity @ Horizon</div><div class="sm-val" id="b-eq" class="pos">—</div></div>
+        <div class="sm col-hdr">Farm</div>
+        <div class="sm col-hdr">Eric</div>
+        <div class="sm"><div class="sm-label">Rent Saved /mo</div><div class="sm-val" id="b-rentsaved" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
+        <div class="sm"><div class="sm-label">Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Equity @ Horizon</div><div class="sm-val" id="b-eq" class="pos">—</div></div>
+        <div class="sm"></div>
         <div class="sm"><div class="sm-label">NPV Adv. vs A</div><div class="sm-val" id="b-npv">—</div></div>
-        <div class="sm"><div class="sm-label">Farm IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div><div class="sm-sub">incl. avoided rent</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div><div class="sm-sub">incl. avoided rent</div></div>
+        <div class="sm"></div>
         <div class="sm"><div class="sm-label">Break-Even vs A</div><div class="sm-val" id="b-be" style="color:var(--goldbr)">—</div></div>
+        <div class="sm"></div>
       </div>
     </div>
     <!-- C -->
     <div class="scen-card card-c">
       <div class="scen-head"><div class="letter">C</div><div><div class="scen-title">Market Refi + Market Rent</div></div></div>
-      <div class="scen-desc">Eric refinances at market rate, charges market rent. Farm pays more with no equity. Farm needs to find other housing.</div>
+      <div class="scen-desc">Eric refinances at market rate, charges market rent. Farm needs to find other housing.</div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Market Rent /mo (Yr 1)</div><div class="sm-val" id="c-mo" style="color:var(--sc)">—</div></div>
-        <div class="sm"><div class="sm-label">Eric P&L /yr (Yr 1)</div><div class="sm-val" id="c-pl">—</div></div>
-        <div class="sm"><div class="sm-label">Eric CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
-        <div class="sm"><div class="sm-label">Eric Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="c-sale">—</div></div>
-        <div class="sm"><div class="sm-label">Eric IRR (hold → sell)</div><div class="sm-val" id="c-irr">—</div></div>
+        <div class="sm col-hdr">Farm</div>
+        <div class="sm col-hdr">Eric</div>
+        <div class="sm"><div class="sm-label">Market Rent /mo</div><div class="sm-val" id="c-mo" style="color:var(--sc)">—</div></div>
+        <div class="sm"><div class="sm-label">P&L /yr (Yr 1)</div><div class="sm-val" id="c-pl">—</div></div>
+        <div class="sm"><div class="sm-label">Needs other housing</div><div class="sm-val" style="color:var(--muted);font-size:10px">n/a</div></div>
+        <div class="sm"><div class="sm-label">CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="c-sale">—</div></div>
+        <div class="sm"></div>
+        <div class="sm"><div class="sm-label">IRR (hold → sell)</div><div class="sm-val" id="c-irr">—</div></div>
       </div>
     </div>
   </div>
