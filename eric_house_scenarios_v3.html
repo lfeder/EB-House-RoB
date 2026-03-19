@@ -141,6 +141,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
   <div class="sr"><div class="sr-top"><span class="sr-label">Insurance /yr</span><span class="sr-val" id="v-ins">$1,525</span></div><input type="range" id="ins" min="500" max="10000" step="250" value="1525"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Utilities /yr</span><span class="sr-val" id="v-utils">$5,049</span></div><input type="range" id="utils" min="0" max="15000" step="250" value="5049"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Maintenance /yr</span><span class="sr-val" id="v-maint">$6,000</span></div><input type="range" id="maint" min="0" max="15000" step="250" value="6000"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Annual Inflation</span><span class="sr-val" id="v-infl">3.00%</span></div><input type="range" id="infl" min="0" max="8" step="0.25" value="3"></div>
 
   <div class="sh">A — Status Quo <span class="tag tag-sa">rent</span></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Ag Rent /mo</span><span class="sr-val" id="v-ra">$3,500</span></div><input type="range" class="sa" id="ra" min="2000" max="6000" step="100" value="3500"></div>
@@ -290,6 +291,7 @@ function compute(){
   const ins     = g('ins');
   const utils   = g('utils');
   const maint   = g('maint');
+  const infl    = g('infl')/100;
   const getR    = 0.045;
   const ra0     = g('ra');
   const ragr    = g('ragr')/100;
@@ -344,9 +346,10 @@ function compute(){
   const irrCfsA = [-equity0];
   for(let yr=1;yr<=sellYr;yr++){
     const rentYr = ra0*12*Math.pow(1+ragr,yr-1);
+    const opsYr = annOps*Math.pow(1+infl,yr-1);
     const piYr = (yr*12 <= term*12) ? piUsda*12 : 0;
     const getYr = rentYr*getR;
-    let cf = rentYr - annOps - piYr - getYr;
+    let cf = rentYr - opsYr - piYr - getYr;
     if(yr===sellYr) cf += hvSell - rlSellA;
     irrCfsA.push(cf);
   }
@@ -356,9 +359,10 @@ function compute(){
   const irrCfsC = [-equity0];
   for(let yr=1;yr<=sellYr;yr++){
     const rentYr = rc0*12*Math.pow(1+rcgr,yr-1);
+    const opsYr = annOps*Math.pow(1+infl,yr-1);
     const piYr = (yr*12 <= refterm*12) ? piMkt*12 : 0;
     const getYr = rentYr*getR;
-    let cf = rentYr - annOps - piYr - getYr;
+    let cf = rentYr - opsYr - piYr - getYr;
     if(yr===sellYr) cf += hvSell - rlSellC;
     irrCfsC.push(cf);
   }
@@ -372,8 +376,9 @@ function compute(){
   const irrCfsB = [-eqTotal]; // full equity outlay (Eric gets 75%, his 25% is contribution)
   for(let yr=1;yr<=sellYr;yr++){
     const rentSaved = ra0*12*Math.pow(1+ragr,yr-1);
+    const opsYr = annOps*Math.pow(1+infl,yr-1);
     const piYrB = (yr*12 <= term*12) ? piUsda*12 : 0;
-    let cf = rentSaved - (piYrB + annOps);
+    let cf = rentSaved - (piYrB + opsYr);
     if(yr===sellYr){
       const hvS = hv0*Math.pow(1+appr,yr);
       const rlS = remBal(bal, usdar, term, yr*12);
@@ -406,7 +411,7 @@ function compute(){
       aBuy += rentA; cumA += rentA; pvA += rentA*df;
 
       const piB = mo<=termMos ? piUsda : 0;
-      const opsMo = annOps/12;
+      const opsMo = (annOps*Math.pow(1+infl,(mo-1)/12))/12;
       bBuy += piB+opsMo; cumB += piB+opsMo; pvB += (piB+opsMo)*df;
 
       const rentC = rc0*Math.pow(1+rcgr,(mo-1)/12);
@@ -497,7 +502,7 @@ const fmtrs={
   hv:v=>'$'+Number(v).toLocaleString(), appr:v=>Number(v).toFixed(2)+'%',
   ptax:v=>'$'+Number(v).toLocaleString(),
   ins:v=>'$'+Number(v).toLocaleString(), utils:v=>'$'+Number(v).toLocaleString(),
-  maint:v=>'$'+Number(v).toLocaleString(),
+  maint:v=>'$'+Number(v).toLocaleString(), infl:v=>Number(v).toFixed(2)+'%',
   ra:v=>'$'+Number(v).toLocaleString(), ragr:v=>Number(v).toFixed(2)+'%',
   jcon:v=>+v?'Yes':'No',
   fval:v=>'$'+(Number(v)/1e6).toFixed(1)+'M',
