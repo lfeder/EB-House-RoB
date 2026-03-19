@@ -201,7 +201,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">Equity @ Horizon</div><div class="sm-val" id="b-eq" class="pos">—</div></div>
         <div class="sm"></div>
-        <div class="sm"><div class="sm-label">NPV Adv. vs A</div><div class="sm-val" id="b-npv">—</div></div>
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div><div class="sm-sub">incl. avoided rent</div></div>
         <div class="sm"></div>
@@ -215,7 +214,7 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
       <div class="scen-metrics">
         <div class="sm col-hdr">Farm</div>
         <div class="sm col-hdr">Eric</div>
-        <div class="sm"><div class="sm-label">Market Rent /mo</div><div class="sm-val" id="c-mo" style="color:var(--sc)">—</div></div>
+        <div class="sm"><div class="sm-label">Ag Rent /mo</div><div class="sm-val" id="c-farmrent" style="color:var(--sc)">—</div></div>
         <div class="sm"><div class="sm-label">P&L /yr (Yr 1)</div><div class="sm-val" id="c-pl">—</div></div>
         <div class="sm"><div class="sm-label">Needs other housing</div><div class="sm-val" style="color:var(--muted);font-size:10px">n/a</div></div>
         <div class="sm"><div class="sm-label">CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
@@ -476,7 +475,7 @@ function render(){
   document.getElementById('b-irr').className = 'sm-val '+(r.irrB>=0?'pos':'neg');
 
   // Scenario C card
-  document.getElementById('c-mo').textContent = fmt(r.rc0);
+  document.getElementById('c-farmrent').textContent = fmt(r.ra0); // farm pays ag rent elsewhere
   document.getElementById('c-pl').textContent = fmt(r.ericPLC);
   document.getElementById('c-pl').className = 'sm-val '+(r.ericPLC>=0?'pos':'neg');
   document.getElementById('c-cf').textContent = fmt(r.ericCFC);
