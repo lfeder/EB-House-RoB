@@ -33,24 +33,17 @@
 body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;min-height:100vh;overflow-x:hidden}
 
 /* ── HEADER ── */
-header{background:var(--surf);border-bottom:1px solid var(--bdr);padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header{background:var(--surf);border-bottom:1px solid var(--bdr);padding:10px 20px;display:flex;align-items:center;gap:12px}
 header h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--text)}
-.chip{padding:2px 8px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase}
-.chip-a{background:rgba(120,170,221,0.15);border:1px solid rgba(120,170,221,0.4);color:var(--sa)}
-.chip-b{background:rgba(88,204,126,0.12);border:1px solid rgba(88,204,126,0.4);color:var(--sb)}
-.chip-c{background:rgba(224,104,104,0.12);border:1px solid rgba(224,104,104,0.4);color:var(--sc)}
-.chip-act{background:rgba(212,160,68,0.12);border:1px solid rgba(212,160,68,0.4);color:var(--goldbr)}
 header .spacer{flex:1}
-header .updated{font-size:9px;color:var(--muted);letter-spacing:0.08em}
 .hdr-btn{padding:3px 10px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border:1px solid;font-family:'Space Mono',monospace;transition:opacity .15s}
 .hdr-btn:hover{opacity:.8}
 .btn-save{background:rgba(88,204,126,0.12);border-color:rgba(88,204,126,0.4);color:var(--green)}
-.btn-reset{background:rgba(224,104,104,0.08);border-color:rgba(224,104,104,0.3);color:var(--red)}
 .save-flash{animation:flash .6s ease-out}
 @keyframes flash{0%{background:rgba(88,204,126,0.35)}100%{background:rgba(88,204,126,0.12)}}
 
 /* ── LAYOUT ── */
-.layout{display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 49px);overflow:hidden;transition:grid-template-columns .25s ease}
+.layout{display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 45px);overflow:hidden;transition:grid-template-columns .25s ease}
 .layout.collapsed{grid-template-columns:0px 1fr}
 .sidebar{background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:10px 12px;display:flex;flex-direction:column;gap:2px;transition:padding .25s ease;min-width:0}
 .layout.collapsed .sidebar{padding:10px 0;border-right:none}
@@ -151,14 +144,9 @@ tr:hover td{background:rgba(255,255,255,0.015)}
 </head>
 <body>
 <header>
-  <h1>Eric's House — Hokuula</h1>
-  <span class="chip chip-a">A: Below-Market Rent</span>
-  <span class="chip chip-b">B: Off-Balance-Sheet Buy</span>
-  <span class="chip chip-c">C: Market Refi + Market Rent</span>
+  <h1>Eric's House</h1>
   <span class="spacer"></span>
   <button class="hdr-btn btn-save" id="btn-save" onclick="saveSliders()">Save</button>
-  <button class="hdr-btn btn-reset" onclick="resetSliders()">Reset</button>
-  <span class="updated">USDA-RD · $466,887 bal · 1.00% · $1,690.53/mo · 26.2 yrs remaining · matures Jun 2052</span>
 </header>
 
 <div class="layout" id="layout">
@@ -168,43 +156,42 @@ tr:hover td{background:rgba(255,255,255,0.015)}
   <div class="sr"><div class="sr-top"><span class="sr-label">Home Value (est.)</span><span class="sr-val" id="v-hv">$900,000</span></div><input type="range" id="hv" min="200000" max="1500000" step="10000" value="900000"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Annual Appreciation</span><span class="sr-val" id="v-appr">2.00%</span></div><input type="range" id="appr" min="0" max="10" step="0.25" value="2"></div>
 
-  <div class="sh">Operating Costs <span class="tag tag-act">actuals</span></div>
+  <div class="sh">Operating Costs</div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Property Tax /yr</span><span class="sr-val" id="v-ptax">$6,000</span></div><input type="range" id="ptax" min="1000" max="25000" step="250" value="6000"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Insurance /yr</span><span class="sr-val" id="v-ins">$1,525</span></div><input type="range" id="ins" min="500" max="10000" step="250" value="1525"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Utilities /yr</span><span class="sr-val" id="v-utils">$5,049</span></div><input type="range" id="utils" min="0" max="15000" step="250" value="5049"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Maintenance /yr</span><span class="sr-val" id="v-maint">$6,000</span></div><input type="range" id="maint" min="0" max="15000" step="250" value="6000"></div>
-  <div style="padding:2px 3px 5px;font-size:8.5px;color:var(--muted)">HI GET: 4.50% applied to rent income (A &amp; C only)</div>
 
-  <div class="sh">Scenario A <span class="tag tag-sa">below-mkt rent</span></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Monthly Rent (Farm → Eric)</span><span class="sr-val" id="v-ra">$3,500</span></div><input type="range" class="sa" id="ra" min="2000" max="6000" step="100" value="3500"></div>
+  <div class="sh">Scenario A <span class="tag tag-sa">rent</span></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Monthly Rent</span><span class="sr-val" id="v-ra">$3,500</span></div><input type="range" class="sa" id="ra" min="2000" max="6000" step="100" value="3500"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-ragr">3.00%</span></div><input type="range" class="sa" id="ragr" min="0" max="8" step="0.25" value="3"></div>
 
-  <div class="sh">Scenario B <span class="tag tag-sb">off-BS buy</span></div>
-  <small style="font-size:9px;color:var(--muted);padding:0 3px 4px;display:block">Equity = Home Value − Loan Bal. Farm assumes USDA-RD + ops. No GET (farm is owner).</small>
+  <div class="sh">Scenario B <span class="tag tag-sb">buy</span></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">John Contributes?</span><span class="sr-val" id="v-jcon">Yes</span></div><input type="range" class="sb" id="jcon" min="0" max="1" step="1" value="1"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Farm Value (for dilution)</span><span class="sr-val" id="v-fval">$12.5M</span></div><input type="range" class="sb" id="fval" min="10000000" max="15000000" step="500000" value="12500000"></div>
 
-  <div class="sh">Scenario C <span class="tag tag-sc">market refi</span></div>
+  <div class="sh">Scenario C <span class="tag tag-sc">refi</span></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">New Market Rate</span><span class="sr-val" id="v-mktrate">7.00%</span></div><input type="range" class="sc" id="mktrate" min="4" max="12" step="0.25" value="7"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">New Term (refi)</span><span class="sr-val" id="v-refterm">30 yrs</span></div><input type="range" class="sc" id="refterm" min="10" max="30" step="5" value="30"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Market Monthly Rent</span><span class="sr-val" id="v-rc">$4,500</span></div><input type="range" class="sc" id="rc" min="2500" max="8000" step="100" value="4500"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-rcgr">3.00%</span></div><input type="range" class="sc" id="rcgr" min="0" max="8" step="0.25" value="3"></div>
 
   <div class="sh">Analysis</div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Discount Rate (opp. cost)</span><span class="sr-val" id="v-disc">8.0%</span></div><input type="range" id="disc" min="2" max="15" step="0.5" value="8"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Discount Rate</span><span class="sr-val" id="v-disc">8.0%</span></div><input type="range" id="disc" min="2" max="15" step="0.5" value="8"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Horizon</span><span class="sr-val" id="v-hor">25 yrs</span></div><input type="range" id="hor" min="5" max="30" step="1" value="25"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Eric Sell Year</span><span class="sr-val" id="v-sell">10 yrs</span></div><input type="range" id="sell" min="1" max="30" step="1" value="10"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Eric's Farm Ownership</span><span class="sr-val" id="v-eown">25%</span></div><input type="range" id="eown" min="0" max="50" step="1" value="25"></div>
 
-  <div class="sh">USDA-RD Loan (as-is) <span class="tag tag-act">exact</span></div>
+  <div class="sh">USDA-RD Loan <span class="tag tag-act">fixed</span></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Balance (Mar 2026)</span><span class="sr-val" id="v-bal">$466,887</span></div><input type="range" id="bal" min="100000" max="700000" step="1000" value="466887"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Rate (USDA-RD)</span><span class="sr-val" id="v-usdar">1.00%</span></div><input type="range" id="usdar" min="0.25" max="4" step="0.25" value="1"></div>
+  <div class="sr"><div class="sr-top"><span class="sr-label">Rate</span><span class="sr-val" id="v-usdar">1.00%</span></div><input type="range" id="usdar" min="0.25" max="4" step="0.25" value="1"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Remaining Term</span><span class="sr-val" id="v-term">26 yrs</span></div><input type="range" id="term" min="5" max="33" step="1" value="26"></div>
-  <div style="padding:2px 3px 5px;font-size:8.5px;color:var(--muted)">Payment: $1,690.53/mo · Matures Jun 2052 · Orig. $570K</div>
+  <div style="padding:2px 3px 5px;font-size:8.5px;color:var(--muted)">$1,690.53/mo · Matures Jun 2052</div>
 
 </aside>
 <main class="main">
 
   <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">◀</button>
-  <div style="font-size:11px;color:var(--text);margin-bottom:2px;padding-left:32px">v03-18 19:45</div>
+  <div style="font-size:11px;color:var(--text);margin-bottom:2px;padding-left:32px">v03-18 20:30</div>
 
   <!-- Scenario cards -->
   <div class="scen-row">
@@ -213,25 +200,27 @@ tr:hover td{background:rgba(255,255,255,0.015)}
       <div class="scen-head"><div class="letter">A</div><div><div class="scen-title">Below-Market Rent</div></div></div>
       <div class="scen-desc">Farm pays Eric below-market rent. Eric keeps house, mortgage, appreciation. Farm builds zero equity.</div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div><div class="sm-sub">rent only</div></div>
-        <div class="sm"><div class="sm-label">Farm Cum. Cost (horizon)</div><div class="sm-val" id="a-cum">—</div><div class="sm-sub">all sunk</div></div>
-        <div class="sm"><div class="sm-label">Eric P&L /yr (Yr 1)</div><div class="sm-val" id="a-pl">—</div><div class="sm-sub">rent − ops − interest − GET</div></div>
-        <div class="sm"><div class="sm-label">Eric CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div><div class="sm-sub">rent − ops − full P&I − GET</div></div>
-        <div class="sm"><div class="sm-label">Eric Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div><div class="sm-sub">net proceeds if sold</div></div>
-        <div class="sm"><div class="sm-label">Eric IRR (hold → sell)</div><div class="sm-val" id="a-irr">—</div><div class="sm-sub">equity as t0 cost</div></div>
+        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="a-mo" style="color:var(--sa)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm Cum. Cost (horizon)</div><div class="sm-val" id="a-cum">—</div></div>
+        <div class="sm"><div class="sm-label">Eric P&L /yr (Yr 1)</div><div class="sm-val" id="a-pl">—</div></div>
+        <div class="sm"><div class="sm-label">Eric CF /yr (Yr 1)</div><div class="sm-val" id="a-cf">—</div></div>
+        <div class="sm"><div class="sm-label">Eric Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="a-sale">—</div></div>
+        <div class="sm"><div class="sm-label">Eric IRR (hold → sell)</div><div class="sm-val" id="a-irr">—</div></div>
       </div>
     </div>
     <!-- B -->
     <div class="scen-card card-b">
       <div class="scen-head"><div class="letter">B</div><div><div class="scen-title">Off-Balance-Sheet Buy</div></div></div>
-      <div class="scen-desc">Farm pays Eric equity upfront, assumes USDA-RD + ops. Farm captures appreciation. Eric owns <span id="b-own-pct">25</span>% of farm.</div>
+      <div class="scen-desc">Farm pays Eric 75% of equity (his 25% is his capital contribution). Eric: 25%, John: 35%, JJB: 40%.</div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Gross Equity to Eric</div><div class="sm-val" id="b-eqpaid" style="color:var(--goldbr)">—</div><div class="sm-sub">home val − loan bal</div></div>
-        <div class="sm"><div class="sm-label">Eric Net (after <span class="own-pct">25</span>%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div><div class="sm-sub"><span class="own-pct">25</span>% comes back via farm</div></div>
-        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div><div class="sm-sub">P&I + ops</div></div>
-        <div class="sm"><div class="sm-label">Farm Equity @ Horizon</div><div class="sm-val" id="b-eq" class="pos">—</div><div class="sm-sub">fully theirs</div></div>
-        <div class="sm"><div class="sm-label">NPV Adv. vs A</div><div class="sm-val" id="b-npv">—</div><div class="sm-sub">buy vs. rent (A)</div></div>
-        <div class="sm"><div class="sm-label">B Break-Even vs A</div><div class="sm-val" id="b-be" style="color:var(--goldbr)">—</div><div class="sm-sub">year buying wins</div></div>
+        <div class="sm"><div class="sm-label">Eric Gets (75%)</div><div class="sm-val" id="b-ericnet" style="color:var(--goldbr)">—</div></div>
+        <div class="sm"><div class="sm-label">John's Share (35%)</div><div class="sm-val" id="b-john" style="color:var(--sb)">—</div></div>
+        <div class="sm"><div class="sm-label">JJB's Share (40%)</div><div class="sm-val" id="b-jjb" style="color:var(--sb)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="b-mo" style="color:var(--sb)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm Equity @ Horizon</div><div class="sm-val" id="b-eq" class="pos">—</div></div>
+        <div class="sm"><div class="sm-label">NPV Adv. vs A</div><div class="sm-val" id="b-npv">—</div></div>
+        <div class="sm"><div class="sm-label">John Own. (post)</div><div class="sm-val" id="b-jown">—</div></div>
+        <div class="sm"><div class="sm-label">B Break-Even vs A</div><div class="sm-val" id="b-be" style="color:var(--goldbr)">—</div></div>
       </div>
     </div>
     <!-- C -->
@@ -239,22 +228,22 @@ tr:hover td{background:rgba(255,255,255,0.015)}
       <div class="scen-head"><div class="letter">C</div><div><div class="scen-title">Market Refi + Market Rent</div></div></div>
       <div class="scen-desc">Eric refinances at market rate, charges market rent. Farm pays more with no equity. Eric's cash flow tighter.</div>
       <div class="scen-metrics">
-        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="c-mo" style="color:var(--sc)">—</div><div class="sm-sub">rent only</div></div>
-        <div class="sm"><div class="sm-label">Farm Cum. Cost (horizon)</div><div class="sm-val" id="c-cum">—</div><div class="sm-sub">all sunk</div></div>
-        <div class="sm"><div class="sm-label">Eric P&L /yr (Yr 1)</div><div class="sm-val" id="c-pl">—</div><div class="sm-sub">rent − ops − interest − GET</div></div>
-        <div class="sm"><div class="sm-label">Eric CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div><div class="sm-sub">rent − ops − full P&I − GET</div></div>
-        <div class="sm"><div class="sm-label">Eric Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="c-sale">—</div><div class="sm-sub">net proceeds if sold</div></div>
-        <div class="sm"><div class="sm-label">Eric IRR (hold → sell)</div><div class="sm-val" id="c-irr">—</div><div class="sm-sub">equity as t0 cost</div></div>
+        <div class="sm"><div class="sm-label">Farm Cost /mo (Yr 1)</div><div class="sm-val" id="c-mo" style="color:var(--sc)">—</div></div>
+        <div class="sm"><div class="sm-label">Farm Cum. Cost (horizon)</div><div class="sm-val" id="c-cum">—</div></div>
+        <div class="sm"><div class="sm-label">Eric P&L /yr (Yr 1)</div><div class="sm-val" id="c-pl">—</div></div>
+        <div class="sm"><div class="sm-label">Eric CF /yr (Yr 1)</div><div class="sm-val" id="c-cf">—</div></div>
+        <div class="sm"><div class="sm-label">Eric Sale @ Yr <span class="sell-yr">10</span></div><div class="sm-val" id="c-sale">—</div></div>
+        <div class="sm"><div class="sm-label">Eric IRR (hold → sell)</div><div class="sm-val" id="c-irr">—</div></div>
       </div>
     </div>
   </div>
 
   <!-- Summary metrics row -->
   <div class="summ-grid">
-    <div class="sg ga"><div class="sg-label">A · Farm NPV Cost</div><div class="sg-val" id="s-anpv" style="color:var(--sa)">—</div><div class="sg-sub">PV of all rent paid</div></div>
-    <div class="sg gb"><div class="sg-label">B · Farm NPV Net Cost</div><div class="sg-val" id="s-bnpv" style="color:var(--sb)">—</div><div class="sg-sub">PV costs − equity</div></div>
-    <div class="sg gc"><div class="sg-label">C · Farm NPV Cost</div><div class="sg-val" id="s-cnpv" style="color:var(--sc)">—</div><div class="sg-sub">PV of all rent paid</div></div>
-    <div class="sg gx"><div class="sg-label">A · Eric IRR</div><div class="sg-val" id="s-airr" style="color:var(--goldbr)">—</div><div class="sg-sub">hold + sell @ yr <span class="sell-yr">10</span></div></div>
+    <div class="sg ga"><div class="sg-label">A · Farm NPV Cost</div><div class="sg-val" id="s-anpv" style="color:var(--sa)">—</div></div>
+    <div class="sg gb"><div class="sg-label">B · Farm NPV Net Cost</div><div class="sg-val" id="s-bnpv" style="color:var(--sb)">—</div></div>
+    <div class="sg gc"><div class="sg-label">C · Farm NPV Cost</div><div class="sg-val" id="s-cnpv" style="color:var(--sc)">—</div></div>
+    <div class="sg gx"><div class="sg-label">A · Eric IRR</div><div class="sg-val" id="s-airr" style="color:var(--goldbr)">—</div></div>
   </div>
 
   <!-- Chart -->
@@ -263,8 +252,8 @@ tr:hover td{background:rgba(255,255,255,0.015)}
       <div class="chart-title">Farm Cumulative Cash Out &amp; Net Position</div>
       <div class="legend">
         <div class="leg"><div class="leg-line" style="background:var(--sa)"></div>A: Cum. Rent</div>
-        <div class="leg"><div class="leg-line" style="background:var(--sb)"></div>B: Cum. Cost (own)</div>
-        <div class="leg"><div class="leg-line" style="background:var(--green);opacity:.7"></div>B: Net (cost−equity)</div>
+        <div class="leg"><div class="leg-line" style="background:var(--sb)"></div>B: Cum. Cost</div>
+        <div class="leg"><div class="leg-line" style="background:var(--green);opacity:.7"></div>B: Net</div>
         <div class="leg"><div class="leg-line" style="background:var(--sc)"></div>C: Cum. Rent</div>
       </div>
     </div>
@@ -279,13 +268,13 @@ tr:hover td{background:rgba(255,255,255,0.015)}
         <th>Year</th>
         <th>Home Value</th>
         <th class="sa">A · Rent/yr</th>
-        <th class="sa">A · Cum. Paid</th>
+        <th class="sa">A · Cum.</th>
         <th class="sb">B · Cost/yr</th>
         <th class="sb">B · Equity</th>
-        <th class="sb">B · Net Position</th>
+        <th class="sb">B · Net</th>
         <th class="sc">C · Rent/yr</th>
-        <th class="sc">C · Cum. Paid</th>
-        <th>B vs A Adv.</th>
+        <th class="sc">C · Cum.</th>
+        <th>B vs A</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
@@ -303,7 +292,7 @@ const fmtK = n => {
   if(a>=1e3) return s+'$'+(a/1e3).toFixed(0)+'K';
   return s+'$'+a.toFixed(0);
 };
-const fmtPct = n => (n>=0?'+':'')+( (n*100).toFixed(1) )+'%';
+const fmtPct = n => (n>=0?'+':'')+(n*100).toFixed(1)+'%';
 const g = id => +document.getElementById(id).value;
 
 function moPmt(P,r,n){
@@ -318,7 +307,6 @@ function remBal(P,r,n,moPaid){
   return P*Math.pow(1+rm,moPaid)-M*(Math.pow(1+rm,moPaid)-1)/rm;
 }
 
-// IRR via Newton-Raphson
 function calcIRR(cfs, guess){
   if(!guess) guess=0.08;
   let r=guess;
@@ -346,86 +334,85 @@ function toggleSidebar(){
 
 // ── COMPUTE ───────────────────────────────────────────────────────
 function compute(){
-  const hv0    = g('hv');
-  const appr   = g('appr')/100;
-  const bal    = g('bal');
-  const usdar  = g('usdar')/100;
-  const term   = g('term');
-  const ptax   = g('ptax');
-  const ins    = g('ins');
-  const utils  = g('utils');
-  const maint  = g('maint');
-  const getR   = 0.045;
-  const ra0    = g('ra');
-  const ragr   = g('ragr')/100;
-  const mktrate= g('mktrate')/100;
-  const refterm= g('refterm');
-  const rc0    = g('rc');
-  const rcgr   = g('rcgr')/100;
-  const disc   = g('disc')/100;
-  const hor    = g('hor');
-  const sellYr = g('sell');
-  const eown   = g('eown')/100;
+  const hv0     = g('hv');
+  const appr    = g('appr')/100;
+  const bal     = g('bal');
+  const usdar   = g('usdar')/100;
+  const term    = g('term');
+  const ptax    = g('ptax');
+  const ins     = g('ins');
+  const utils   = g('utils');
+  const maint   = g('maint');
+  const getR    = 0.045;
+  const ra0     = g('ra');
+  const ragr    = g('ragr')/100;
+  const jcon    = g('jcon'); // 1 = yes, 0 = no
+  const fval    = g('fval');
+  const mktrate = g('mktrate')/100;
+  const refterm = g('refterm');
+  const rc0     = g('rc');
+  const rcgr    = g('rcgr')/100;
+  const disc    = g('disc')/100;
+  const hor     = g('hor');
+  const sellYr  = g('sell');
 
   const piUsda = moPmt(bal, usdar, term);
   const piMkt  = moPmt(bal, mktrate, refterm);
   const annOps = ptax + ins + utils + maint;
 
-  // Equity paid in Scenario B
-  const eqPaid    = Math.max(0, hv0 - bal);
-  const ericNetEq = eqPaid * (1 - eown); // Eric's effective net after farm ownership
+  // ── Ownership: Eric 25%, John 35%, JJB 40% ──
+  const eqTotal    = Math.max(0, hv0 - bal);  // total house equity
+  const ericGets   = eqTotal * 0.75;          // Eric gets 75% (his 25% is contribution)
+  const johnShare  = eqTotal * 0.35;          // John's capital call
+  const jjbShare   = eqTotal * 0.40;          // JJB's capital call
+
+  // If John doesn't contribute, JJB covers his share → John diluted
+  // John's pre-transaction value: 35% × farmVal
+  // JJB covers extra: johnShare
+  // John's new ownership: (35% × farmVal) / (farmVal + johnShare)
+  const johnOwnPost = jcon
+    ? 0.35  // contributes → stays at 35%
+    : (0.35 * fval) / (fval + johnShare);
 
   // ── Eric P&L vs CF (Yr 1) ──
-  // P&L: rent - ops - interest only - GET  (income statement; principal builds equity)
-  // CF:  rent - ops - full P&I - GET       (cash in/out)
   const usdaIntYr1 = bal * usdar;
   const getA = ra0*12*getR;
-  const ericPLA  = ra0*12 - annOps - usdaIntYr1 - getA;
-  const ericCFA  = ra0*12 - annOps - piUsda*12 - getA;
+  const ericPLA = ra0*12 - annOps - usdaIntYr1 - getA;
+  const ericCFA = ra0*12 - annOps - piUsda*12 - getA;
 
   const mktIntYr1 = bal * mktrate;
   const getC = rc0*12*getR;
-  const ericPLC  = rc0*12 - annOps - mktIntYr1 - getC;
-  const ericCFC  = rc0*12 - annOps - piMkt*12 - getC;
+  const ericPLC = rc0*12 - annOps - mktIntYr1 - getC;
+  const ericCFC = rc0*12 - annOps - piMkt*12 - getC;
 
-  // ── Eric Sale Analysis ──
-  // Sell at sellYr: proceeds = home_value - remaining_balance
-  const hvSell  = hv0 * Math.pow(1+appr, sellYr);
+  // ── Eric Sale @ sellYr ──
+  const hvSell = hv0 * Math.pow(1+appr, sellYr);
   const rlSellA = remBal(bal, usdar, term, sellYr*12);
   const rlSellC = remBal(bal, mktrate, refterm, sellYr*12);
   const saleProceedsA = hvSell - rlSellA;
   const saleProceedsC = hvSell - rlSellC;
 
   // ── Eric IRR for A ──
-  // t0 = -equity (opportunity cost of not selling today)
-  // t1..sellYr = annual net CF
-  // t_sellYr += sale proceeds
   const equity0 = hv0 - bal;
   const irrCfsA = [-equity0];
   for(let yr=1;yr<=sellYr;yr++){
-    // approximate annual CF with rent growth
     const rentYr = ra0*12*Math.pow(1+ragr,yr-1);
-    const opsYr = annOps; // ops don't grow for simplicity
     const piYr = (yr*12 <= term*12) ? piUsda*12 : 0;
     const getYr = rentYr*getR;
-    let cf = rentYr - opsYr - piYr - getYr;
-    if(yr===sellYr){
-      cf += hvSell - rlSellA; // sale proceeds
-    }
+    let cf = rentYr - annOps - piYr - getYr;
+    if(yr===sellYr) cf += hvSell - rlSellA;
     irrCfsA.push(cf);
   }
   const irrA = calcIRR(irrCfsA);
 
   // ── Eric IRR for C ──
-  const irrCfsC = [-equity0]; // same starting equity
+  const irrCfsC = [-equity0];
   for(let yr=1;yr<=sellYr;yr++){
     const rentYr = rc0*12*Math.pow(1+rcgr,yr-1);
     const piYr = (yr*12 <= refterm*12) ? piMkt*12 : 0;
     const getYr = rentYr*getR;
     let cf = rentYr - annOps - piYr - getYr;
-    if(yr===sellYr){
-      cf += hvSell - rlSellC;
-    }
+    if(yr===sellYr) cf += hvSell - rlSellC;
     irrCfsC.push(cf);
   }
   const irrC = calcIRR(irrCfsC);
@@ -436,8 +423,8 @@ function compute(){
   let pvA=0, pvB=0, pvC=0;
   let beYear=null;
 
-  cumB = eqPaid;
-  pvB  = eqPaid;
+  cumB = ericGets; // farm pays Eric 75% upfront
+  pvB  = ericGets;
 
   for(let yr=1;yr<=hor;yr++){
     const hv = hv0*Math.pow(1+appr,yr);
@@ -475,7 +462,7 @@ function compute(){
   const pvBNet = pvB - finalYr.eqB*termDF;
 
   return {
-    piUsda, piMkt, eqPaid, ericNetEq, eown,
+    piUsda, piMkt, eqTotal, ericGets, johnShare, jjbShare, johnOwnPost, jcon,
     ericPLA, ericCFA, ericPLC, ericCFC,
     saleProceedsA, saleProceedsC, irrA, irrC,
     sellYr,
@@ -554,7 +541,7 @@ function buildTable(years, beYear){
     .map(d=>{
       const isBE=d.yr===beYear;
       return `<tr${isBE?' class="be-row"':''}>
-        <td>${isBE?'★ ':''}Year ${d.yr}${isBE?' ✓':''}
+        <td>${isBE?'★ ':''}Yr ${d.yr}${isBE?' ✓':''}
         <td>${fmt(d.hv)}</td>
         <td style="color:var(--sa)">${fmt(d.aBuy)}</td>
         <td style="color:var(--sa)">${fmt(d.cumA)}</td>
@@ -574,13 +561,10 @@ function render(){
 
   // Update sell year labels
   document.querySelectorAll('.sell-yr').forEach(el=>{el.textContent=r.sellYr});
-  document.querySelectorAll('.own-pct').forEach(el=>{el.textContent=Math.round(r.eown*100)});
-  document.getElementById('b-own-pct').textContent=Math.round(r.eown*100);
 
   // Scenario A card
   document.getElementById('a-mo').textContent = fmt(r.ra0);
   document.getElementById('a-cum').textContent = fmtK(r.finalYr.cumA);
-
   document.getElementById('a-pl').textContent = fmtK(r.ericPLA);
   document.getElementById('a-pl').className = 'sm-val '+(r.ericPLA>=0?'pos':'neg');
   document.getElementById('a-cf').textContent = fmtK(r.ericCFA);
@@ -591,21 +575,22 @@ function render(){
   document.getElementById('a-irr').className = 'sm-val '+(r.irrA>=0?'pos':'neg');
 
   // Scenario B card
-  document.getElementById('b-eqpaid').textContent = fmtK(r.eqPaid);
-  document.getElementById('b-ericnet').textContent = fmtK(r.ericNetEq);
+  document.getElementById('b-ericnet').textContent = fmtK(r.ericGets);
+  document.getElementById('b-john').textContent = r.jcon ? fmtK(r.johnShare) : 'skipped';
+  document.getElementById('b-jjb').textContent = r.jcon ? fmtK(r.jjbShare) : fmtK(r.jjbShare + r.johnShare);
   document.getElementById('b-mo').textContent = fmt(r.piUsda + r.annOps/12);
-  const bEq = r.finalYr.eqB;
-  document.getElementById('b-eq').textContent = fmtK(bEq);
+  document.getElementById('b-eq').textContent = fmtK(r.finalYr.eqB);
   document.getElementById('b-eq').className = 'sm-val pos';
   const bNpv = r.pvA - r.pvBNet;
   document.getElementById('b-npv').textContent = fmtK(bNpv);
   document.getElementById('b-npv').className = 'sm-val '+(bNpv>=0?'pos':'neg');
+  document.getElementById('b-jown').textContent = (r.johnOwnPost*100).toFixed(1)+'%';
+  document.getElementById('b-jown').className = 'sm-val '+(r.jcon?'pos':'neg');
   document.getElementById('b-be').textContent = r.beYear ? 'Year '+r.beYear : 'None';
 
   // Scenario C card
   document.getElementById('c-mo').textContent = fmt(r.rc0);
   document.getElementById('c-cum').textContent = fmtK(r.finalYr.cumC);
-
   document.getElementById('c-pl').textContent = fmtK(r.ericPLC);
   document.getElementById('c-pl').className = 'sm-val '+(r.ericPLC>=0?'pos':'neg');
   document.getElementById('c-cf').textContent = fmtK(r.ericCFC);
@@ -633,10 +618,12 @@ const fmtrs={
   ins:v=>'$'+Number(v).toLocaleString(), utils:v=>'$'+Number(v).toLocaleString(),
   maint:v=>'$'+Number(v).toLocaleString(),
   ra:v=>'$'+Number(v).toLocaleString(), ragr:v=>Number(v).toFixed(2)+'%',
+  jcon:v=>+v?'Yes':'No',
+  fval:v=>'$'+(Number(v)/1e6).toFixed(1)+'M',
   mktrate:v=>Number(v).toFixed(2)+'%', refterm:v=>v+' yrs',
   rc:v=>'$'+Number(v).toLocaleString(), rcgr:v=>Number(v).toFixed(2)+'%',
   disc:v=>Number(v).toFixed(1)+'%', hor:v=>v+' yrs',
-  sell:v=>v+' yrs', eown:v=>v+'%',
+  sell:v=>v+' yrs',
 };
 document.querySelectorAll('input[type=range]').forEach(el=>{
   el.addEventListener('input',()=>{
@@ -646,7 +633,7 @@ document.querySelectorAll('input[type=range]').forEach(el=>{
   });
 });
 
-// ── SAVE / LOAD / RESET ──────────────────────────────────────────
+// ── SAVE / LOAD ──────────────────────────────────────────────────
 const STORAGE_KEY = 'eric-house-sliders';
 
 function saveSliders(){
@@ -656,16 +643,6 @@ function saveSliders(){
   const btn=document.getElementById('btn-save');
   btn.textContent='Saved ✓'; btn.classList.add('save-flash');
   setTimeout(()=>{btn.textContent='Save'; btn.classList.remove('save-flash');},1200);
-}
-
-function resetSliders(){
-  localStorage.removeItem(STORAGE_KEY);
-  const defaults={hv:'900000',appr:'2',bal:'466887',usdar:'1',term:'26',ptax:'6000',ins:'1525',utils:'5049',maint:'6000',ra:'3500',ragr:'3',mktrate:'7',refterm:'30',rc:'4500',rcgr:'3',disc:'8',hor:'25',sell:'10',eown:'25'};
-  Object.entries(defaults).forEach(([id,val])=>{
-    const el=document.getElementById(id);
-    if(el){el.value=val; const fn=fmtrs[id]; if(fn) document.getElementById('v-'+id).textContent=fn(val);}
-  });
-  render();
 }
 
 function loadSliders(){
