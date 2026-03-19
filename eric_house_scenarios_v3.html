@@ -205,7 +205,6 @@ input[type=range].sc::-webkit-slider-thumb{border-color:var(--sc)}
         <div class="sm"></div>
         <div class="sm"><div class="sm-label">IRR (sell @ <span class="sell-yr">10</span>)</div><div class="sm-val" id="b-irr">—</div><div class="sm-sub">incl. avoided rent</div></div>
         <div class="sm"></div>
-        <div class="sm"><div class="sm-label">Break-Even vs A</div><div class="sm-val" id="b-be" style="color:var(--goldbr)">—</div></div>
         <div class="sm"></div>
       </div>
     </div>
@@ -475,7 +474,6 @@ function render(){
   document.getElementById('b-npv').className = 'sm-val '+(bNpv>=0?'pos':'neg');
   document.getElementById('b-irr').textContent = fmtPct(r.irrB);
   document.getElementById('b-irr').className = 'sm-val '+(r.irrB>=0?'pos':'neg');
-  document.getElementById('b-be').textContent = r.beYear ? 'Year '+r.beYear : 'None';
 
   // Scenario C card
   document.getElementById('c-mo').textContent = fmt(r.rc0);
