@@ -510,8 +510,7 @@ function render(){
   jEl.textContent = (r.johnOwnPost*100).toFixed(1)+'%';
   jEl.style.color = r.jcon ? 'var(--green)' : 'var(--red)';
 
-  // Scenario A card
-  document.getElementById('a-mo').textContent = fmt(r.ra0);
+  // Scenario A card (display label B: Status Quo)
   document.getElementById('a-pl').textContent = fmt(r.ericPLA);
   document.getElementById('a-pl').className = 'sm-val '+(r.ericPLA>=0?'pos':'neg');
   document.getElementById('a-cf').textContent = fmt(r.ericCFA);
@@ -536,8 +535,7 @@ function render(){
   document.getElementById('b-irr').textContent = fmtPct(r.irrB);
   document.getElementById('b-irr').className = 'sm-val '+(r.irrB>=0?'pos':'neg');
 
-  // Scenario C card
-  document.getElementById('c-farmrent').textContent = fmt(r.ra0); // farm pays ag rent elsewhere
+  // Scenario C card (display label D: Market Refi)
   document.getElementById('c-pl').textContent = fmt(r.ericPLC);
   document.getElementById('c-pl').className = 'sm-val '+(r.ericPLC>=0?'pos':'neg');
   document.getElementById('c-cf').textContent = fmt(r.ericCFC);
@@ -547,8 +545,7 @@ function render(){
   document.getElementById('c-irr').textContent = fmtPct(r.irrC);
   document.getElementById('c-irr').className = 'sm-val '+(r.irrC>=0?'pos':'neg');
 
-  // Scenario D card
-  document.getElementById('d-farmrent').textContent = fmt(r.ra0);
+  // Scenario D card (display label A: Eric Sells Now)
   document.getElementById('d-price').textContent = fmt(r.hv0);
   document.getElementById('d-net').textContent = fmt(r.dNetProceeds);
   document.getElementById('d-cumcf').textContent = fmt(r.dNetCf);
