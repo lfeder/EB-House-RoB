@@ -43,7 +43,7 @@ header .spacer{flex:1}
 @keyframes flash{0%{background:rgba(88,204,126,0.35)}100%{background:rgba(88,204,126,0.12)}}
 
 /* ── LAYOUT ── */
-.layout{display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 45px);overflow:hidden;transition:grid-template-columns .25s ease}
+.layout{display:grid;grid-template-columns:220px 1fr;height:calc(100vh - 45px);overflow:hidden;transition:grid-template-columns .25s ease}
 .layout.collapsed{grid-template-columns:0px 1fr}
 .sidebar{background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:10px 12px;display:flex;flex-direction:column;gap:2px;transition:padding .25s ease;min-width:0}
 .layout.collapsed .sidebar{padding:10px 0;border-right:none}
@@ -135,10 +135,10 @@ tr:hover td{background:rgba(255,255,255,0.015)}
 </head>
 <body>
 <header>
-  <span style="font-size:11px;color:var(--text)">v03-18 20:45</span>
   <h1>Eric's House</h1>
   <span class="spacer"></span>
   <button class="hdr-btn btn-save" id="btn-save" onclick="saveSliders()">Save</button>
+  <span style="font-size:11px;color:var(--text)">v03-18 21:00</span>
 </header>
 
 <div class="layout" id="layout">
@@ -154,15 +154,15 @@ tr:hover td{background:rgba(255,255,255,0.015)}
   <div class="sr"><div class="sr-top"><span class="sr-label">Utilities /yr</span><span class="sr-val" id="v-utils">$5,049</span></div><input type="range" id="utils" min="0" max="15000" step="250" value="5049"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Maintenance /yr</span><span class="sr-val" id="v-maint">$6,000</span></div><input type="range" id="maint" min="0" max="15000" step="250" value="6000"></div>
 
-  <div class="sh">Scenario A <span class="tag tag-sa">rent</span></div>
+  <div class="sh">A <span class="tag tag-sa">rent</span></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Monthly Rent</span><span class="sr-val" id="v-ra">$3,500</span></div><input type="range" class="sa" id="ra" min="2000" max="6000" step="100" value="3500"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Annual Rent Growth</span><span class="sr-val" id="v-ragr">3.00%</span></div><input type="range" class="sa" id="ragr" min="0" max="8" step="0.25" value="3"></div>
 
-  <div class="sh">Scenario B <span class="tag tag-sb">buy</span></div>
+  <div class="sh">B <span class="tag tag-sb">buy</span></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">John Contributes?</span><span class="sr-val" id="v-jcon">Yes</span></div><input type="range" class="sb" id="jcon" min="0" max="1" step="1" value="1"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Farm Value (for dilution)</span><span class="sr-val" id="v-fval">$12.5M</span></div><input type="range" class="sb" id="fval" min="10000000" max="15000000" step="500000" value="12500000"></div>
 
-  <div class="sh">Scenario C <span class="tag tag-sc">refi</span></div>
+  <div class="sh">C <span class="tag tag-sc">refi</span></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">New Market Rate</span><span class="sr-val" id="v-mktrate">7.00%</span></div><input type="range" class="sc" id="mktrate" min="4" max="12" step="0.25" value="7"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">New Term (refi)</span><span class="sr-val" id="v-refterm">30 yrs</span></div><input type="range" class="sc" id="refterm" min="10" max="30" step="5" value="30"></div>
   <div class="sr"><div class="sr-top"><span class="sr-label">Market Monthly Rent</span><span class="sr-val" id="v-rc">$4,500</span></div><input type="range" class="sc" id="rc" min="2500" max="8000" step="100" value="4500"></div>
@@ -174,10 +174,7 @@ tr:hover td{background:rgba(255,255,255,0.015)}
   <div class="sr"><div class="sr-top"><span class="sr-label">Eric Sell Year</span><span class="sr-val" id="v-sell">10 yrs</span></div><input type="range" id="sell" min="1" max="30" step="1" value="10"></div>
 
   <div class="sh">USDA-RD Loan <span class="tag tag-act">fixed</span></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Balance (Mar 2026)</span><span class="sr-val" id="v-bal">$466,887</span></div><input type="range" id="bal" min="100000" max="700000" step="1000" value="466887"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Rate</span><span class="sr-val" id="v-usdar">1.00%</span></div><input type="range" id="usdar" min="0.25" max="4" step="0.25" value="1"></div>
-  <div class="sr"><div class="sr-top"><span class="sr-label">Remaining Term</span><span class="sr-val" id="v-term">26 yrs</span></div><input type="range" id="term" min="5" max="33" step="1" value="26"></div>
-  <div style="padding:2px 3px 5px;font-size:8.5px;color:var(--muted)">$1,690.53/mo · Matures Jun 2052</div>
+  <div style="padding:4px 3px;font-size:9px;color:var(--dim);line-height:1.5">$466,887 bal · 1.00% · 26 yrs<br>$1,691/mo · Jun 2052</div>
 
 </aside>
 <main class="main">
@@ -313,9 +310,9 @@ function toggleSidebar(){
 function compute(){
   const hv0     = g('hv');
   const appr    = g('appr')/100;
-  const bal     = g('bal');
-  const usdar   = g('usdar')/100;
-  const term    = g('term');
+  const bal     = 466887;
+  const usdar   = 0.01;
+  const term    = 26;
   const ptax    = g('ptax');
   const ins     = g('ins');
   const utils   = g('utils');
@@ -547,8 +544,7 @@ function render(){
 // ── SLIDER LABELS ─────────────────────────────────────────────────
 const fmtrs={
   hv:v=>'$'+Number(v).toLocaleString(), appr:v=>Number(v).toFixed(2)+'%',
-  bal:v=>'$'+Number(v).toLocaleString(), usdar:v=>Number(v).toFixed(2)+'%',
-  term:v=>v+' yrs', ptax:v=>'$'+Number(v).toLocaleString(),
+  ptax:v=>'$'+Number(v).toLocaleString(),
   ins:v=>'$'+Number(v).toLocaleString(), utils:v=>'$'+Number(v).toLocaleString(),
   maint:v=>'$'+Number(v).toLocaleString(),
   ra:v=>'$'+Number(v).toLocaleString(), ragr:v=>Number(v).toFixed(2)+'%',
