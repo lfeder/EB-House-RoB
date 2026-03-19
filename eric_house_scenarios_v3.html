@@ -475,9 +475,6 @@ function render(){
   document.getElementById('b-mo').textContent = fmt(r.piUsda + r.annOps/12);
   document.getElementById('b-eq').textContent = fmt(r.finalYr.eqB);
   document.getElementById('b-eq').className = 'sm-val pos';
-  const bNpv = r.pvA - r.pvBNet;
-  document.getElementById('b-npv').textContent = fmt(bNpv);
-  document.getElementById('b-npv').className = 'sm-val '+(bNpv>=0?'pos':'neg');
   document.getElementById('b-irr').textContent = fmtPct(r.irrB);
   document.getElementById('b-irr').className = 'sm-val '+(r.irrB>=0?'pos':'neg');
 
